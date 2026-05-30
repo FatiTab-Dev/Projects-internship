@@ -1,4 +1,4 @@
-.counter {
+/* .counter {
   font-size: 16px;
   padding: 5px 10px;
   border-radius: 5px;
@@ -181,4 +181,129 @@
     right: 0;
     border-right-color: var(--border);
   }
+} */
+ * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 75px;
+}
+
+body {
+  font-weight: 400;
+  overflow-x: hidden;
+  position: relative;
+  background-color: #fdf9f9 !important;
+  color: #333 !important;
+  font-family: 'Centra', sans-serif !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0;
+  line-height: normal;
+}
+
+p, a, li, button, ul {
+  margin: 0;
+  padding: 0;
+  line-height: normal;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+img {
+  width: 100%;
+  height: auto;
+}
+
+button {
+  border: 0;
+  background-color: transparent;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+}
+
+@media (min-width:1700px) {
+	main .container {
+		max-width: 100%;
+		padding: 0 150px;
+	}
+}
+
+/* p.success {
+	color: green;
+}
+
+p.danger {
+	color: red;
+} */
+/************ Navbar Css ************/
+nav.navbar {
+ padding: 16px 0;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 9999;
+  transition:  0.32s ease-in-out;
+}
+nav.navbar.scrolled {
+  padding: 0px 0;
+  background-color: #ffffff !important;
+}
+nav.navbar a.navbar-brand {
+  padding: 8px 0;
+  margin-top: 0;
+  margin-left: 14px;
+    width: 70px;
+    height: 60px;
+}
+
+nav.navbar .navbar-nav .nav-link {
+  font-weight: 400;
+  color: #ff8017 !important;
+  letter-spacing: 0.8px;
+  padding: 0 25px;
+  font-size: 18px;
+  opacity: 0.75;
+}
+nav.navbar .navbar-nav a.nav-link:hover,
+nav.navbar .navbar-nav a.nav-link.active {
+  color: #ff7300 !important;
+    opacity: 1;
+}
+nav.navbar .navbar-nav a.nav-link.btn {
+  border: 2px solid #ff4000;
+  color: #ff4000 !important;
+  border-radius: 20px !important;
+  padding: 8px 15px;
+  transition: all 0.3s ease;
+}
+.fa-cart-plus {
+  color: #ff7300 !important;
+  font-size: 20px !important;
+  padding: 8px;
+  margin-left: 10px;
+  cursor: pointer;
+ border: 2px solid transparent;
+ border-radius: 50%;
+  transition: all 0.3s ease;
+}
+nav.navbar .navbar-nav a.nav-link.btn:hover {
+  background-color: #ff5100;
+  color: #fff !important;
+  border-color: #ff5100;
+}
+.fa-cart-plus:hover {
+border-color: #ff5100; 
+background-color: rgba(255, 115, 0, 0.1);
 }
