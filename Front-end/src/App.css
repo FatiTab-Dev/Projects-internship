@@ -347,7 +347,7 @@ transform: scale(1.05);
   object-fit: cover !important;
  object-position: center !important;
 }
-.carousel-caption span {
+.carousel-caption span, span.caption {
  color:#f94c12f3 !important;
 }
 .carousel-caption .btn {
@@ -362,4 +362,39 @@ transform: scale(1.05);
 }
 .carousel-control-next-icon , .carousel-control-prev-icon{
   filter: invert(1) brightness(2);
+}
+/************ Cards Css ************/
+.card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(255, 1, 1, 0.1);}
+  .card:hover {
+    box-shadow: 0 4px 12px rgba(255, 1, 1, 0.2);
+    transform: translateY(-5px);
+    transition: all 0.3s ease;
+  }
+  .card span{
+    color :#1f0000 !important;
+  }
+.card .btn {
+  border: 2px solid #ff4000;
+  color: #ff4000 !important;
+  border-radius: 20px !important;
+  padding: 0 20px !important;
+  height: 38px !important;    
+  display: inline-flex !important;
+  align-items: center;       
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  margin-top: 10px;
+  align-self: center;     
+  background-color: transparent;
+  transition: all 0.3s ease;
+}
+.card .btn:hover {
+  background-color: #ff5100 !important;
+  color: #fff !important;
+  border-color: #ff5100 !important;
+  box-shadow: 0 4px 12px rgba(255, 64, 0, 0.2);
 }

@@ -10,7 +10,7 @@ import bike07 from '../assets/img/bike07.jpeg';
 import bike08 from '../assets/img/bike08.jpg';
 import bike09 from '../assets/img/bike09.jpg';
 
-export const Cardsshop = () => {
+export const Cardsshop = ({ onAddToCart }) => {
   const bikesData = [
     {
       id: 1,
@@ -75,6 +75,8 @@ export const Cardsshop = () => {
       
   return (
      <div  id ="bikes" className="container text-center">
+       <h2 className="display-4 fw-bold text-dark mb-5">Explore Our <span className="caption">Top Bikes</span></h2>
+       <p className="lead text-muted mb-5">Discover our premium selection of mountain bikes, designed for riders who demand performance, durability, and style on every trail.</p>
       <div className="row g-4">
       {bikesData.map((bike) => (
           <div key={bike.id} className="col-lg-4 col-md-6 col-sm-12">
@@ -93,20 +95,13 @@ export const Cardsshop = () => {
                 </div>
                 
                 <div className="mt-3">
-                  <span className="fw-bold price d-block text-warning fs-4 mb-2">
+                  <span className="fw-bold price d-block fs-4 mb-2">
                     {bike.price}
                   </span>
                   
                   <div className="d-flex justify-content-center gap-2">
-                    <button className="btn btn-warning px-4 rounded-pill fw-bold text-uppercase">
+                    <button className="btn px-4 rounded-pill fw-bold text-uppercase" onClick={() => onAddToCart(bike)}>
                       Add to Cart
-                    </button>
-                    <button className="btn btn-outline-danger rounded-circle p-2 d-none">
-                      <img
-                        src="trash.svg"
-                        alt="trash"
-                        style={{ width: '20px', height: '20px' }}
-                      />
                     </button>
                   </div>
                 </div>
