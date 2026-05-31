@@ -30,7 +30,7 @@ export const Carsoul = () => {
            
             <img src={bike1} className="d-block w-100 carousel-img" alt="Mountain Bike 1" />
             <div className="carousel-caption text-start px-4">
-              <h1 className="display-3 fw-bold text-white uppercase-text">Discover the Power<br/> of<span className="text-warning">Unmatched Durability</span></h1>
+              <h1 className="display-3 fw-bold text-white uppercase-text">Discover the Power<br/> of <span className="text-warning">Unmatched Durability</span></h1>
               <p className="lead text-white-50 my-4">Professional bikes engineered to conquer the toughest trails and highest peaks.</p>
               <a href="#bikes" className="btn btn-warning btn-lg px-5 py-3 rounded-pill fw-bold text-dark shadow-lg custom-btn">
               Shop Now <i className="fas fa-shopping-bag ms-2"></i>
