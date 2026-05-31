@@ -6,6 +6,9 @@ import bike2 from '../assets/img/bike2.jpg';
 import bike3 from '../assets/img/bike3.jpg'; 
 import bike4 from '../assets/img/bike4.jpg'; 
 import bike5 from '../assets/img/bike5.jpg'; 
+import bike6 from '../assets/img/bike6.jpg'; 
+import bike7 from '../assets/img/bike7.jpg'; 
+import bike8 from '../assets/img/bike8.jpg'; 
 
 export const Carsoul = () => {
   return (
@@ -19,6 +22,9 @@ export const Carsoul = () => {
           <button type="button" data-bs-target="#bikeCarousel" data-bs-slide-to="2"></button>
           <button type="button" data-bs-target="#bikeCarousel" data-bs-slide-to="3"></button>
           <button type="button" data-bs-target="#bikeCarousel" data-bs-slide-to="4"></button>
+          <button type="button" data-bs-target="#bikeCarousel" data-bs-slide-to="5"></button>
+          <button type="button" data-bs-target="#bikeCarousel" data-bs-slide-to="6"></button>
+          <button type="button" data-bs-target="#bikeCarousel" data-bs-slide-to="7"></button>
         </div>
 
         
@@ -63,6 +69,18 @@ export const Carsoul = () => {
            <div className="carousel-item">
             <div className="overlay"></div>
             <img src={bike5} className="d-block w-100 carousel-img" alt="Mountain Bike 5" />
+          </div>
+           <div className="carousel-item">
+            <div className="overlay"></div>
+            <img src={bike6} className="d-block w-100 carousel-img" alt="Mountain Bike 6" />
+          </div>
+           <div className="carousel-item">
+            <div className="overlay"></div>
+            <img src={bike7} className="d-block w-100 carousel-img" alt="Mountain Bike 7" />
+          </div>
+           <div className="carousel-item">
+            <div className="overlay"></div>
+            <img src={bike8} className="d-block w-100 carousel-img" alt="Mountain Bike 8" />
           </div>
         </div>
 

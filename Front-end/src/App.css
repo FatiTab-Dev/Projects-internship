@@ -343,9 +343,9 @@ transform: scale(1.05);
 }
 .carousel-img {
   width: 100%;
-  height: 75vh !important;
+  height: 85vh !important;
   object-fit: cover !important;
-  object-position: center;
+ object-position: center !important;
 }
 .carousel-caption span {
  color:#f94c12f3 !important;
@@ -359,4 +359,7 @@ transform: scale(1.05);
 border-color: #fc641eef; 
 background-color: rgba(255, 115, 0, 0.1);
 transform: scale(1.05);
+}
+.carousel-control-next-icon , .carousel-control-prev-icon{
+  filter: invert(1) brightness(2);
 }

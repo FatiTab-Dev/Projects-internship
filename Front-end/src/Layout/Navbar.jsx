@@ -28,7 +28,7 @@ export const Navbar = () => {
   return (
     
     <div>
-      <nav className={`navbar navbar-expand-lg navbar-dark bg-light fixed-top ms-auto ${scrolled ? "scrolled shadow" : ""}`}>
+      <nav className={`navbar navbar-expand-lg navbar-dark fixed-top ms-auto ${scrolled ? "scrolled shadow" : ""}`}>
         <div className="container-fluid px-3">
           <a className="navbar-brand fw-bold" href="/"><img src={logo} alt="Logo" /></a>
           <button
