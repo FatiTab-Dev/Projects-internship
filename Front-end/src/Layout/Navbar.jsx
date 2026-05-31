@@ -28,30 +28,35 @@ export const Navbar = () => {
   return (
     
     <div>
-      <nav className={`navbar navbar-expand-lg navbar-dark bg-light fixed-top flex-row gap-4 ms-auto ${scrolled ? "scrolled shadow" : ""}`}>
+      <nav className={`navbar navbar-expand-lg navbar-dark bg-light fixed-top ms-auto ${scrolled ? "scrolled shadow" : ""}`}>
         <div className="container-fluid px-3">
-          <a className="navbar-brand fw-bold" href="#home"><img src={logo} alt="Logo" /></a>
+          <a className="navbar-brand fw-bold" href="/"><img src={logo} alt="Logo" /></a>
           <button
           className="navbar-toggler border-0"
           type="button"
           onClick={() => setMenuOpen(!menuOpen)}
           style={{ outline: 'none', boxShadow: 'none' }}
         >
-          <span style={{ fontSize: '1.5rem', color: 'black' }}>
+          <span style={{ fontSize: '1.5rem', color: 'orange' }}>
             {menuOpen ? '✕' : '☰'}
           </span>
         </button>
           <div className={`navbar-collapse ${menuOpen ? 'd-block' : 'd-none d-lg-flex'}`}>
-           <div className="navbar-nav d-flex flex-column flex-lg-row gap-4 gap-lg-4 ms-auto mt-3 mt-lg-0">
+           <div className="navbar-nav d-flex flex-column flex-lg-row gap-2 ms-auto mt-3 mt-lg-0">
             <HashLink 
-              className={activeLink === 'home' ? 'nav-link active' : 'nav-link'} 
-              to="#cards" 
-              onClick={() => onUpdateActiveLink('home')}
+              className={activeLink === 'shop' ? 'nav-link active' : 'nav-link'} 
+              to="#bikes" 
+              onClick={() => onUpdateActiveLink('shop')}
+            >Shop</HashLink> 
+            <HashLink 
+              className="cart-icon-wrapper" 
+              to="#carts" 
+              onClick={() => onUpdateActiveLink('cart')}
             ><i className="fas fa-cart-plus"></i></HashLink> 
             <HashLink 
-              className={activeLink === 'login' ? 'nav-link active btn' : 'nav-link btn'} 
-              to="#login" 
-              onClick={() => onUpdateActiveLink('login')}
+              className={activeLink === 'login' ? 'nav-link active custom-login-btn' : 'nav-link custom-login-btn'} 
+                to="#login" 
+                onClick={() => onUpdateActiveLink('login')}
             >Login</HashLink>
            
           </div>

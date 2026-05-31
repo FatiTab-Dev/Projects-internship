@@ -7,195 +7,117 @@ import bike04 from '../assets/img/bike04.jpeg';
 import bike05 from '../assets/img/bike05.jpeg';
 import bike06 from '../assets/img/bike06.jpeg';
 import bike07 from '../assets/img/bike07.jpeg';
+import bike08 from '../assets/img/bike08.jpg';
+import bike09 from '../assets/img/bike09.jpg';
 
 export const Cardsshop = () => {
+  const bikesData = [
+    {
+      id: 1,
+      title: "Red Canyon Pro",
+      desc: "Sporty mountain bike featuring precision shifting, excellent suspension, and a striking red finish.",
+      price: "$1,349",
+      img: bike01
+    },
+    {
+      id: 2,
+      title: "Adventure XTR",
+      desc: "Built for exploration with a strong frame, reliable components, and superior off-road capability.",
+      price: "$1,189",
+      img: bike02
+    },
+    {id: 3,
+      title: "Shadow Peak 29",
+      desc: "Sleek black MTB equipped with large 29-inch wheels for speed, traction, and smooth trail control.",
+      price: "$1,249",
+      img: bike03
+    },
+    {
+      id: 4,
+      title: "Forest Rider Elite",
+      desc: "Versatile trail bike offering comfort, stability, and confidence on mixed mountain routes.",
+      price: "$1,099",
+      img: bike04
+    },{
+      id: 5,
+      title: "Alpine Blaze",
+      desc: "High-performance mountain bike with aggressive geometry, perfect for challenging terrain and fast descents.",
+      price: "$1,399",
+      img: bike05
+    },{
+      id: 6,
+      title: "Trail Hunter Pro",
+      desc: "Durable hardtail MTB featuring responsive handling, powerful brakes, and excellent climbing performance.",
+      price: "$1,149",
+      img: bike06
+    },{
+      id: 7,
+      title: "Summit Thunder X",
+      desc: "Lightweight mountain bike with premium suspension, designed for rough trails and long-distance adventures.",
+      price: "$1,299",
+      img: bike07
+    },{
+     id: 8,
+      title: "Phoenix Carbon Race",
+      desc: "Ultra-lightweight carbon frame engineered for maximum speed and competitive trail racing.",
+      price: "$2,100",
+      img: bike08
+    },{
+      id: 9,
+      title: "Vanguard Enduro",
+      desc: "Advanced full-suspension bike built to dominate aggressive downhill tracks and rocky terrains.",
+      price: "$1,750",
+      img: bike09
+    }
+
+  ];
+
+      
   return (
-     <div className="container text-center">
-      <div className="row">
-        <div className="col-lg-4 col-md-6 col-sm-12">
-          <div className="card">
-            <img src={bike01} alt="Red Canyon Pro" className="card-img-top" />
-            <div className="card-body">
-              <h5 className="card-title">Red Canyon Pro</h5>
-              <p className="card-text">
-                Sporty mountain bike featuring precision shifting, excellent suspension, and a striking red finish.
-                <span className="fw-bold price d-block"> $1,349</span>
-              </p>
-              <button className="btn btn-warning">Add to Cart</button>
-              <button className="btn btn-delete rounded-3 d-none p-1">
-                <img
-                  src="trash.svg"
-                  alt="trash"
-                  style={{ width: '20px', height: '20px' }}         
-                />
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className="col-lg-4 col-md-6 col-sm-12">
-          <div className="card">
-            <img
-              src={bike02}
-              alt="Aurora"
-              className="card-img-top"
-              loading="lazy"
-            />
-            <div className="card-body">
-              <h5 className="card-title">Adventure XTR</h5>
-              <p className="card-text">
-                Built for exploration with a strong frame, reliable components, and superior off-road capability.<span className="fw-bold price d-block">
-                  $1,189</span
-                >
-              </p>
-              <button className="btn btn-warning">Add to Cart</button>
-              <button className="btn btn-delete rounded-3 d-none p-1">
-                <img
-                  src="trash.svg"
-                  alt="trash"
-                  style={{ width: '20px', height: '20px' }}
-                />
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className="col-lg-4 col-md-6 col-sm-12">
-          <div className="card">
-            <img
-              src={bike03}
-              alt="Shadow Peak 29"
-              className="card-img-top"
-              loading="lazy"
-            />
-            <div className="card-body">
-              <h5 className="card-title">Shadow Peak 29</h5>
-              <p className="card-text">
-                Sleek black MTB equipped with large 29-inch wheels for speed, traction, and smooth trail control.
-                <span className="fw-bold price d-block">
-                  $1,249
-                </span>
-              </p>
-              <button className="btn btn-warning">Add to Cart</button>
-              <button className="btn btn-delete rounded-3 d-none p-1">
-                <img
-                  src="trash.svg"
-                  alt="trash"
-                  style={{ width: '20px', height: '20px' }}
-                />
-              </button>
-            </div>
-          </div>
-        </div>
+     <div  id ="bikes" className="container text-center">
+      <div className="row g-4">
+      {bikesData.map((bike) => (
+          <div key={bike.id} className="col-lg-4 col-md-6 col-sm-12">
+            <div className="card h-100 shadow-sm border-0 custom-bike-card">
+              <img 
+                src={bike.img} 
+                alt={bike.title} 
+                className="card-img-top p-2 rounded-4" 
+                loading="lazy" 
+                style={{ height: '240px', objectFit: 'cover' }}
+              />
+              <div className="card-body d-flex flex-column justify-content-between">
+                <div>
+                  <h5 className="card-title fw-bold text-dark">{bike.title}</h5>
+                  <p className="card-text text-muted fs-6">{bike.desc}</p>
+                </div>
+                
+                <div className="mt-3">
+                  <span className="fw-bold price d-block text-warning fs-4 mb-2">
+                    {bike.price}
+                  </span>
+                  
+                  <div className="d-flex justify-content-center gap-2">
+                    <button className="btn btn-warning px-4 rounded-pill fw-bold text-uppercase">
+                      Add to Cart
+                    </button>
+                    <button className="btn btn-outline-danger rounded-circle p-2 d-none">
+                      <img
+                        src="trash.svg"
+                        alt="trash"
+                        style={{ width: '20px', height: '20px' }}
+                      />
+                    </button>
+                  </div>
+                </div>
 
-        <div className="col-lg-4 col-md-6 col-sm-12">
-          <div className="card">
-            <img
-              src={bike04}
-              alt="Forest Rider Elite"
-              className="card-img-top"
-              loading="lazy"
-            />
-            <div className="card-body">
-              <h5 className="card-title">Forest Rider Elite</h5>
-              <p className="card-text">
-                Versatile trail bike offering comfort, stability, and confidence on mixed mountain routes.<span className="fw-bold price d-block">
-                  $1,099
-                </span>
-              </p>
-              <button className="btn btn-warning">Add to Cart</button>
-              <button className="btn btn-delete rounded-3 d-none p-1">
-                <img
-                  src="trash.svg"
-                  alt="trash"
-                  style={{ width: '20px', height: '20px' }}
-                />
-              </button>
+              </div>
             </div>
           </div>
-        </div>
+        ))}
 
-        <div className="col-lg-4 col-md-6 col-sm-12">
-          <div className="card">
-            <img
-              src={bike05}
-              alt="Alpine Blaze"
-              className="card-img-top"
-              loading="lazy"
-            />
-            <div className="card-body">
-              <h5 className="card-title">Alpine Blaze</h5>
-              <p className="card-text">
-                High-performance mountain bike with aggressive geometry, perfect for challenging terrain and fast descents.<span className="fw-bold price d-block">
-                  $1,399
-                </span>
-              </p>
-              <button className="btn btn-warning">Add to Cart</button>
-              <button className="btn btn-delete rounded-3 d-none p-1">
-                <img
-                  src="trash.svg"
-                  alt="trash"
-                  style={{ width: '20px', height: '20px' }}
-                />
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className="col-lg-4 col-md-6 col-sm-12">
-          <div className="card">
-            <img
-              src={bike06}
-              alt="Trail Hunter Pro"
-              className="card-img-top"
-              loading="lazy"
-            />
-            <div className="card-body">
-              <h5 className="card-title">Trail Hunter Pro</h5>
-              <p className="card-text">
-                Durable hardtail MTB featuring responsive handling, powerful brakes, and excellent climbing performance.
-                <span className="fw-bold price d-block">
-                  $1,149
-                </span>
-              </p>
-              <button className="btn btn-warning">Add to Cart</button>
-              <button className="btn btn-delete rounded-3 d-none p-1">
-                <img
-                  src="trash.svg"
-                  alt="trash"
-                  style={{ width: '20px', height: '20px' }}
-                />
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className="col-lg-4 col-md-6 col-sm-12">
-          <div className="card">
-            <img
-              src={bike07}
-              alt="Summit Thunder X"
-              className="card-img-top"
-              loading="lazy"
-            />
-            <div className="card-body">
-              <h5 className="card-title">Summit Thunder X</h5>
-              <p className="card-text">
-                Lightweight mountain bike with premium suspension, designed for rough trails and long-distance adventures.
-                <span className="fw-bold price d-block">
-                  $1,299
-                </span>
-              </p>
-              <button className="btn btn-warning">Add to Cart</button>
-              <button className="btn btn-delete rounded-3 d-none p-1">
-                <img
-                  src="trash.svg"
-                  alt="trash"
-                  style={{ width: '20px', height: '20px' }}
-                />
-              </button>
-            </div>
-          </div>
-        </div>
+      </div>
     </div>
-    </div>
+    
  );
 };
