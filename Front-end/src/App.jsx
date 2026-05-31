@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Navbar } from './Layout/Navbar';
+import { Carsoul } from './Layout/Carsoul';
+import { Cardsshop } from './Layout/Cardsshop';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
@@ -14,10 +16,12 @@ function App() {
          <>
           <header>
             <Navbar />
+            <Carsoul />
           </header> 
-          {/* <main>
-           
+           <main>
+           <Cardsshop />
           </main>
+          {/*
           <footer>
             <Footer />
           </footer> */}
