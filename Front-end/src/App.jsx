@@ -9,6 +9,7 @@ import bikesData from './Layout/bikesData';
 import { ProtectedRoute } from './Layout/ProtectedRoute';
 import { ProductDetails } from './Layout/ProductDetails';
 import { Checkout } from './Layout/Checkout';
+import { Footer } from './Layout/Footer';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
@@ -83,6 +84,7 @@ function App() {
             </>
           } />
           </Routes>
+          <Footer />
       </div>
     </Router>
   );
