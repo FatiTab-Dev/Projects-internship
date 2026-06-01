@@ -58,11 +58,11 @@ export const Navbar = ({ cartCount }) => {
         {cartCount}
       </span>
     )}</Link> 
-            <HashLink 
+            <Link 
               className={activeLink === 'login' ? 'nav-link active custom-login-btn' : 'nav-link custom-login-btn'} 
-                to="#login" 
+                to="/login" 
                 onClick={() => onUpdateActiveLink('login')}
-            >Login</HashLink>
+            >Login</Link>
            
           </div>
           </div>
