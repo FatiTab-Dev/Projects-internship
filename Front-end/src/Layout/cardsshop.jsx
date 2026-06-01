@@ -1,9 +1,10 @@
-// import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+
+import { useNavigate } from 'react-router-dom';
 import bikesData from './bikesData';
 
 export const Cardsshop = ({ onAddToCart }) => {
-      
+  const navigate = useNavigate();
+
   return (
      <div  id ="bikes" className="container text-center">
        <h2 className="display-4 fw-bold text-dark mb-5">Explore Our <span className="caption">Top Bikes</span></h2>
@@ -26,13 +27,14 @@ export const Cardsshop = ({ onAddToCart }) => {
                 </div>
                 
                 <div className="mt-3">
-                  <span className="fw-bold price d-block fs-4 mb-2">
-                    {bike.price}
-                  </span>
+                  <span className="fw-bold price d-block fs-4 mb-2">${bike.price}</span>
                   
                   <div className="d-flex justify-content-center gap-2">
                     <button className="btn px-4 rounded-pill fw-bold text-uppercase" onClick={() => onAddToCart(bike)}>
                       Add to Cart
+                    </button>
+                    <button className="btn fw-bold text-uppercase" onClick={() => navigate(`/product/${bike.id}`)} title="View Details">
+                      <i className="bi bi-info-circle fs-5"></i>
                     </button>
                   </div>
                 </div>
