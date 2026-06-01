@@ -29,7 +29,7 @@ export const ProductDetails = ({ onAddToCart }) => {
     }
     return (
         <div className="container text-center mt-5">
-            <div className="row align-items-center mt-4">
+            <div className="row align-items-center mt-5">
              <div className="col-md-7 col-sm-12  d-flex justify-content-center gap-2 flex-wrap mt-3">
               <img src={activeImg} alt={bike.title}  className="img-fluid rounded-4 shadow mb-3" 
              style={{ height: '450px', width: '100%', objectFit: 'cover' }} />

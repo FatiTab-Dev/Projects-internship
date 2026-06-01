@@ -39,7 +39,7 @@ export const Footer = () => {
               <i className="fas fa-home me-2"></i> Morocco
             </p>
             <p className="small mb-2">
-              <i className="fas fa-envelope me-2 "></i> support@aurorastore.com
+              <i className="fas fa-envelope me-2 "></i> support@verteX.com
             </p>
             <p className="small mb-2">
               <i className="fas fa-phone me-2"></i> +212 600-000000

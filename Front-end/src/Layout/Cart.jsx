@@ -1,8 +1,10 @@
 import { HashLink } from 'react-router-hash-link';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export const Cart = ({ cartItems }) => {
   const navigate = useNavigate();
+  const [message, setMessage] = useState({ text: '', type: '' });
   const calculateTotal = () => {
     return cartItems.reduce((total, item) => {
       const priceNum = parseFloat(item.price.replace(/[^0-9.-]+/g, ""));
@@ -14,8 +16,8 @@ export const Cart = ({ cartItems }) => {
   if (currentUser) {
     navigate('/checkout');
   } else {
-    alert('Please login first to proceed to checkout! 🔑');
     navigate('/login');
+     setMessage({ text: 'Please login first to proceed to checkout! 🔑', type: 'warning' });
   }
 };
 
@@ -73,6 +75,7 @@ export const Cart = ({ cartItems }) => {
               <button className="btn w-100 rounded-pill fw-bold text-uppercase py-2" style={{ backgroundColor: '#ff4000', color: '#fff' }} onClick={handleCheckout}>
                 Proceed to Checkout
               </button>
+              <p className={`small mt-3 ${message.type === 'warning' ? 'text-warning' : 'text-success'}`}>{message.text}</p>
             </div>
           </div>
         </div>
