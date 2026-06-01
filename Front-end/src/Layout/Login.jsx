@@ -9,6 +9,7 @@ export const Login = ({onLogin}) => {
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [showPassword, setShowPassword] = useState(false); 
+  const [message, setMessage] = useState({ text: '', type: '' });
 
   const navigate = useNavigate();
 
@@ -17,24 +18,30 @@ export const Login = ({onLogin}) => {
     if (activeTab === 'login') {
       console.log("Signing in:", email);
       if (email === 'admin@gmail.com' && password === 'admin123') {
-        const adminUser = { email, role: 'admin' };
+        const adminUser = { email, role: 'admin', isAdmin: true };
         localStorage.setItem('user', JSON.stringify(adminUser));
         if (onLogin) onLogin(adminUser);
-        alert('Welcome Admin to Dashboard! 🛠️');
+        setMessage({ text: 'Welcome Admin to Dashboard! 🛠️', type: 'success' });
         navigate('/dashboard');}
         else {
-        
-        const regularUser = { email, role: 'user' };
-        localStorage.setItem('user', JSON.stringify(regularUser));
-        if (onLogin) onLogin(regularUser);
-        alert('Welcome Back! 🎉');
+       const usersList = JSON.parse(localStorage.getItem('users')) || [];
+       const foundUser = usersList.find(u => u.email === email && u.password === password);
+       if (!foundUser) {
+         setMessage({ text: 'Invalid email or password. Please try again. ❌', type: 'danger' });
+         return;
+       }
+        if (onLogin) onLogin(foundUser);
+        localStorage.setItem('user', JSON.stringify(foundUser));
+        setMessage({ text: 'Welcome Back! 🎉', type: 'success' });
         navigate('/'); }
     } else {
       console.log("Creating Account:", name, email);
-      const newUser = { name, email, password: password, role: 'user' };
-      localStorage.setItem('user', JSON.stringify(newUser));
-      alert('Account Created Successfully! 🚀');
-      setActiveTab('login'); 
+      const newUser = { name, email, password: password, role: 'user', isAdmin: false };
+      const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
+      existingUsers.push(newUser);
+      localStorage.setItem('users', JSON.stringify(existingUsers));
+      setMessage({ text: 'Account Created Successfully! 🚀', type: 'success' });
+      setActiveTab('login');
       setName('');
       setEmail('');
       setPassword('');
@@ -44,8 +51,6 @@ export const Login = ({onLogin}) => {
   return (
     <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: '100vh', backgroundColor: '#f8f9fa' }}>
       <div className="card p-4 shadow-sm border-0 rounded-4" style={{ width: '100%', maxWidth: '450px', backgroundColor: '#fff' }}>
-        
-        
         <div className="d-flex justify-content-center mb-4 border-bottom">
           <button 
             className={`btn fw-bold pb-2 px-4 rounded-0 border-0 ${activeTab === 'login' ? 'text-dark border-bottom border-3 border-dark' : 'text-muted'}`}
@@ -156,6 +161,11 @@ export const Login = ({onLogin}) => {
               {activeTab === 'login' ? 'Create a new account' : 'Sign in here'}
             </span>
           </p>
+          {message.text && (
+           <div className={`alert alert-${message.type} text-center small py-2 mb-3`}>
+           {message.text}
+           </div>
+)}
         </div>
 
       </div>

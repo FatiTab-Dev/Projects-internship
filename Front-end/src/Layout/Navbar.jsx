@@ -1,10 +1,17 @@
 import { useState, useEffect } from 'react';
 import { HashLink } from 'react-router-hash-link';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import  logo from '../assets/img/logo.png';
 
 
-export const Navbar = ({ cartCount }) => {
+export const Navbar = ({ cartCount,user, onLogout }) => {
+  const navigate = useNavigate();
+
+  const handleLogoutClick = () => {
+    onLogout();
+    navigate('/');
+  };
+
   const [activeLink, setActiveLink] = useState('home');
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -49,22 +56,44 @@ export const Navbar = ({ cartCount }) => {
               to="/#bikes" 
               onClick={() => onUpdateActiveLink('shop')}
             >Shop</HashLink> 
-            <Link 
-              className="cart-icon-wrapper position-relative" 
-              to="/cart" 
-              onClick={() => onUpdateActiveLink('cart')}
-            ><i className="fas fa-cart-plus"></i>{cartCount > 0 && (
-      <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill " style={{ fontSize: '0.65rem', backgroundColor: 'red', color: 'white' }}>
-        {cartCount}
-      </span>
-    )}</Link> 
-            <Link 
-              className={activeLink === 'login' ? 'nav-link active custom-login-btn' : 'nav-link custom-login-btn'} 
-                to="/login" 
-                onClick={() => onUpdateActiveLink('login')}
-            >Login</Link>
-           
-          </div>
+            {user && user.isAdmin && (
+                <Link 
+                  className={activeLink === 'dashboard' ? 'nav-link active' : 'nav-link'} onClick={() => onUpdateActiveLink('dashboard')}
+                  to="/dashboard" >Admin</Link>
+                 
+              )}
+              {user && !user.isAdmin && (
+                <span className="nav-link">Hello, {user.name || 'Customer'}</span>
+              )}
+              <Link 
+                className="cart-icon-wrapper position-relative mx-2" 
+                to="/cart" 
+                onClick={() => onUpdateActiveLink('cart')}
+              >
+                <i className="fas fa-cart-plus"></i>
+                {cartCount > 0 && (
+                  <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill" style={{ fontSize: '0.65rem', backgroundColor: 'red', color: 'white' }}>
+                    {cartCount}
+                  </span>
+                )}
+              </Link> 
+
+              {user ? (
+                <div className="d-flex align-items-center gap-2">
+                  <button 
+                    className="nav-link custom-login-btn border-0 bg-transparent" 
+                    onClick={handleLogoutClick}
+                  >Logout</button>
+                </div>
+              ) : (
+                <Link 
+                  className={activeLink === 'login' ? 'nav-link active custom-login-btn' : 'nav-link custom-login-btn'} 
+                  to="/login" 
+                  onClick={() => onUpdateActiveLink('login')}
+                >Login</Link>
+              )}
+               
+            </div>
           </div>
         </div>
       </nav>

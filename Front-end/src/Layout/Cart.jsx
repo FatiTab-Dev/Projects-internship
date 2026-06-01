@@ -1,12 +1,23 @@
 import { HashLink } from 'react-router-hash-link';
+import { useNavigate } from 'react-router-dom';
 
 export const Cart = ({ cartItems }) => {
+  const navigate = useNavigate();
   const calculateTotal = () => {
     return cartItems.reduce((total, item) => {
       const priceNum = parseFloat(item.price.replace(/[^0-9.-]+/g, ""));
       return total + priceNum;
     }, 0);
   };
+  const handleCheckout = () => {
+  const currentUser = localStorage.getItem('user');
+  if (currentUser) {
+    navigate('/checkout');
+  } else {
+    alert('Please login first to proceed to checkout! 🔑');
+    navigate('/login');
+  }
+};
 
   return (
     <div className="container" style={{ marginTop: '120px', minHeight: '70vh' }}>
@@ -59,7 +70,7 @@ export const Cart = ({ cartItems }) => {
                 <span>Total Price:</span>
                 <span className="fw-bold text-success">${calculateTotal().toLocaleString()}</span>
               </div>
-              <button className="btn w-100 rounded-pill fw-bold text-uppercase py-2" style={{ backgroundColor: '#ff4000', color: '#fff' }}>
+              <button className="btn w-100 rounded-pill fw-bold text-uppercase py-2" style={{ backgroundColor: '#ff4000', color: '#fff' }} onClick={handleCheckout}>
                 Proceed to Checkout
               </button>
             </div>

@@ -240,13 +240,13 @@ input:focus, textarea:focus, select:focus {
 	}
 }
 
-/* p.success {
+p.success {
 	color: green;
 }
 
 p.danger {
 	color: red;
-} */
+}
 /************ Navbar Css ************/
 nav.navbar {
  padding: 16px 0;

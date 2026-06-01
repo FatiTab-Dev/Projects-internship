@@ -1,8 +1,8 @@
 
 import { useNavigate } from 'react-router-dom';
-import bikesData from './bikesData';
+// import bikesData from './bikesData';
 
-export const Cardsshop = ({ onAddToCart }) => {
+export const Cardsshop = ({ bikes,onAddToCart }) => {
   const navigate = useNavigate();
 
   return (
@@ -10,7 +10,7 @@ export const Cardsshop = ({ onAddToCart }) => {
        <h2 className="display-4 fw-bold text-dark mb-5">Explore Our <span className="caption">Top Bikes</span></h2>
        <p className="lead text-muted mb-5">Discover our premium selection of mountain bikes, designed for riders who demand performance, durability, and style on every trail.</p>
       <div className="row g-4">
-      {bikesData.map((bike) => (
+      {bikes.map((bike) => (
           <div key={bike.id} className="col-lg-4 col-md-6 col-sm-12">
             <div className="card h-100 shadow-sm border-0 custom-bike-card">
               <img 

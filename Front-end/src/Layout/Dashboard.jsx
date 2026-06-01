@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import bikesData from './bikesData';
+import { useNavigate } from 'react-router-dom';
 
-export const Dashboard = () => {
-  const [products, setProducts] = useState(bikesData || []);
+export const Dashboard = ({ products, setProducts }) => {
+  const navigate = useNavigate();
   const [newProductName, setNewProductName] = useState('');
   const [newProductPrice, setNewProductPrice] = useState('');
   const [newProductImg, setNewProductImg] = useState(''); 
@@ -15,6 +15,7 @@ export const Dashboard = () => {
   const [editPrice, setEditPrice] = useState('');
   const [editDesc, setEditDesc] = useState('');
   const [editStock, setEditStock] = useState('');
+  const [message, setMessage] = useState({ text: '', type: '' });
 
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
@@ -43,7 +44,7 @@ export const Dashboard = () => {
     setNewProductDesc('');
     setNewProductStock(5);
     setNewProductSales(0);
-    alert('Product Added Successfully! 🚲');
+    setMessage({ text: 'Product Added Successfully! 🚲', type: 'success' });
   };
 
   const startEdit = (product) => {
@@ -63,18 +64,23 @@ export const Dashboard = () => {
       stock: parseInt(editStock) || 0
     } : p));
     setEditingId(null); 
-    alert('Product Updated Successfully! 📝');
+    setMessage({ text: 'Product Updated Successfully! 📝', type: 'success' });
   };
 
   const handleDelete = (id) => {
     setProducts(products.filter(p => p.id !== id));
+    setMessage({ text: 'Product Deleted Successfully! 🗑️', type: 'success' });
   };
 
   return (
     <div className="container my-5 text-start">
       <h1 className='p-5'>Admin <span style={{ color: '#ff4000' }}>Dashboard</span></h1>
       <div className="row g-4">
-        
+        {message.text && (
+           <h2 className={`alert alert-${message.type} text-center small py-2 mb-3`}>
+           {message.text}
+           </h2>
+        )}
         <div className="col-md-4">
           <div className="card p-4 shadow-sm border-0 rounded-4">
             <h5 className="fw-bold mb-3">Add New Bike</h5>
@@ -100,7 +106,7 @@ export const Dashboard = () => {
                 />
               </div>
               <div className="mb-3">
-                <label className="form-label small fw-bold text-muted">Stock Quantity (الكمية المتوفرة)</label>
+                <label className="form-label small fw-bold text-muted">Stock Quantity</label>
                 <input type="number" className="form-control" value={newProductStock} onChange={(e) => setNewProductStock(e.target.value)} />
               </div>
               <div className="mb-3">
@@ -121,16 +127,19 @@ export const Dashboard = () => {
                   onChange={(e) => setNewProductDesc(e.target.value)}
                 ></textarea>
               </div>
-              <button type="submit" className="btn w-100 fw-bold text-white" style={{ backgroundColor: '#ff4000' }}>
+              <button type="submit" className="btn w-100 fw-bold text-white" style={{ backgroundColor: '#ffff', color: '#ff4000', transition: 'all 0.3s' }}>
                 Add Product
+              </button>
+              <button type="button" className="btn w-100 fw-bold text-white" style={{ backgroundColor: '#ffff', color: '#ff4000', transition: 'all 0.3s' }} onClick={() => navigate('/#bikes')}>
+                Back to Shop
               </button>
             </form>
           </div>
         </div>
 
-        <div className="col-md-8">
+        <div className="col-md-8 col-sm-12">
           <div className="card p-4 shadow-sm border-0 rounded-4">
-            <h5 className="fw-bold mb-3">Manage Products ({products.length})</h5>
+            <h5 className="fw-bold mb-3">Manage Products ({products?.length || 0})</h5>
             <div className="table-responsive">
               <table className="table align-middle">
                 <thead>
@@ -144,7 +153,7 @@ export const Dashboard = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {products.map((product) => {
+                  {products?.map((product) => {
                     const isEditing = editingId === product.id;
                     return (
                       <tr key={product.id}>
