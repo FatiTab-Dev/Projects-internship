@@ -1,29 +1,33 @@
-import { HashLink } from 'react-router-hash-link';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { HashLink } from 'react-router-hash-link';
 
 export const Cart = ({ cartItems }) => {
   const navigate = useNavigate();
   const [message, setMessage] = useState({ text: '', type: '' });
+
   const calculateTotal = () => {
     return cartItems.reduce((total, item) => {
-      const priceNum = parseFloat(item.price.replace(/[^0-9.-]+/g, ""));
+      const priceNum = typeof item.price === 'number' ? item.price : parseFloat(item.price) || 0;
       return total + priceNum;
     }, 0);
   };
+
   const handleCheckout = () => {
-  const currentUser = localStorage.getItem('user');
-  if (currentUser) {
-    navigate('/checkout');
-  } else {
-    navigate('/login');
-     setMessage({ text: 'Please login first to proceed to checkout! 🔑', type: 'warning' });
-  }
-};
+    const currentUser = localStorage.getItem('user');
+    if (currentUser) {
+      navigate('/checkout');
+    } else {
+      setMessage({ text: 'Please login first to proceed to checkout! 🔑', type: 'warning' });
+      setTimeout(() => navigate('/login'), 2000);
+    }
+  };
 
   return (
     <div className="container" style={{ marginTop: '120px', minHeight: '70vh' }}>
-      <h2 className="display-5 fw-bold mb-4 text-dark">Your <span style={{ color: '#ff4000' }}>Cart</span></h2>
+      <h2 className="display-5 fw-bold mb-4 text-dark">
+        Your <span style={{ color: '#ff4000' }}>Cart</span>
+      </h2>
       
       {cartItems.length === 0 ? (
         <div className="text-center my-5">
@@ -45,21 +49,30 @@ export const Cart = ({ cartItems }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {cartItems.map((item, index) => (
-                    <tr key={index}>
-                      <td>
-                        <img src={item.img} alt={item.title} className="rounded-3" style={{ width: '70px', height: '60px', objectFit: 'cover' }} />
-                      </td>
-                      <td className="fw-bold text-dark">{item.title}</td>
-                      <td className="text-dark fw-bold">{item.price}</td>
-                    </tr>
-                  ))}
+                  {cartItems.map((item, index) => {
+                    const itemId = item._id || item.id || index;
+                    return (
+                      <tr key={itemId}>
+                        <td>
+                          <img 
+                            src={item.img || 'https://via.placeholder.com/150'} 
+                            alt={item.title} 
+                            className="rounded-3" 
+                            style={{ width: '70px', height: '60px', objectFit: 'cover' }} 
+                          />
+                        </td>
+                        <td className="fw-bold text-dark">{item.title || 'No Title'}</td>
+                        <td className="text-dark fw-bold">
+                          ${typeof item.price === 'number' ? item.price.toFixed(2) : item.price}
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
           </div>
 
-          
           <div className="col-lg-4">
             <div className="bg-white p-4 rounded-4 shadow-sm border">
               <h4 className="fw-bold mb-3 text-dark">Order Summary</h4>
@@ -70,12 +83,22 @@ export const Cart = ({ cartItems }) => {
               </div>
               <div className="d-flex justify-content-between fs-4 mb-4">
                 <span>Total Price:</span>
-                <span className="fw-bold text-success">${calculateTotal().toLocaleString()}</span>
+                <span className="fw-bold text-success">
+                  ${calculateTotal().toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                </span>
               </div>
-              <button className="btn w-100 rounded-pill fw-bold text-uppercase py-2" style={{ backgroundColor: '#ff4000', color: '#fff' }} onClick={handleCheckout}>
+              <button 
+                className="btn w-100 rounded-pill fw-bold text-uppercase py-2" 
+                style={{ backgroundColor: '#ff4000', color: '#fff' }} 
+                onClick={handleCheckout}
+              >
                 Proceed to Checkout
               </button>
-              <p className={`small mt-3 ${message.type === 'warning' ? 'text-warning' : 'text-success'}`}>{message.text}</p>
+              {message.text && (
+                <p className={`small mt-3 text-center fw-bold ${message.type === 'warning' ? 'text-danger' : 'text-success'}`}>
+                  {message.text}
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -83,3 +106,5 @@ export const Cart = ({ cartItems }) => {
     </div>
   );
 };
+
+export default Cart;

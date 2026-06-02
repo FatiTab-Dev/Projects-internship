@@ -2,27 +2,23 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export const Checkout = ({ cartItems, user, onCheckout }) => {
-    const [message, setMessage] = useState({ text: '', type: '' });
-    const [address, setAddress] = useState('');
-    const [phone, setPhone] = useState('');
-    const [city, setCity] = useState('');
-    const navigate = useNavigate();
-    
-    const calculateTotal = () => {
-     return cartItems.reduce((total, item) => {
-        if (!item || !item.price) return total;
+  const [message, setMessage] = useState({ text: '', type: '' });
+  const [address, setAddress] = useState('');
+  const [phone, setPhone] = useState('');
+  const [city, setCity] = useState('');
+  const navigate = useNavigate();
 
-     let priceNum;
-     if (typeof item.price === 'number') {
-      priceNum = item.price;
-     } else {
-      const cleanPrice = item.price.toString().replace(/[^0-9.]/g, "");
-      priceNum = parseFloat(cleanPrice);
-     }
-     return total + (isNaN(priceNum) ? 0 : priceNum);
-     }, 0);
-    };
-  const handlePlaceOrder = (e) => {
+  const API = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
+  const calculateTotal = () => {
+    return cartItems.reduce((total, item) => {
+      if (!item || !item.price) return total;
+      const priceNum = typeof item.price === 'number' ? item.price : parseFloat(item.price) || 0;
+      return total + priceNum;
+    }, 0);
+  };
+
+  const handlePlaceOrder = async (e) => {
     e.preventDefault();
 
     if (cartItems.length === 0) {
@@ -30,38 +26,64 @@ export const Checkout = ({ cartItems, user, onCheckout }) => {
       return;
     }
 
-    const newOrder = {
-      id: 'ORD-' + Math.floor(Math.random() * 100000), 
+    const fullAddress = `${address}, ${city}`;
+
+    const orderData = {
       customerName: user ? user.name : 'Guest Customer',
-      customerEmail: user ? user.email : 'Guest Email',
-      address: address,
-      city: city,
+      customerEmail: user ? user.email : 'guest@example.com',
       phone: phone,
-      items: cartItems,
+      address: fullAddress,
       totalAmount: calculateTotal(),
-      date: new Date().toLocaleDateString('en-US'),
-      status: 'Pending'
+      items: cartItems.map(item => ({
+        productId: item._id || item.id,
+        title: item.title,
+        price: typeof item.price === 'number' ? item.price : parseFloat(item.price) || 0,
+        quantity: item.quantity || 1
+      }))
     };
-    const existingOrders = JSON.parse(localStorage.getItem('orders')) || [];
-    existingOrders.push(newOrder);
-    localStorage.setItem('orders', JSON.stringify(existingOrders));
-    if (onCheckout) onCheckout(cartItems[0].id, cartItems.length);
-    setMessage({ text: 'Your order has been placed successfully! 🎉', type: 'success' });
-    navigate('/checkout');
+
+    try {
+      const response = await fetch(`${API}/api/orders`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderData),
+      });
+
+      if (response.ok) {
+        setMessage({ text: 'Your order has been placed successfully! 🎉', type: 'success' });
+        if (onCheckout) onCheckout();
+        setTimeout(() => {
+          navigate('/');
+        }, 2500);
+      } else {
+        const errorData = await response.json();
+        setMessage({ text: errorData.message || 'Failed to place order. ❌', type: 'danger' });
+      }
+    } catch (error) {
+      setMessage({ text: 'Server connection error. Please try again later.', type: 'danger' });
+    }
   };
+
   return (
     <div className="container my-5 pt-5">
       <h2 className="fw-bold mb-4 text-center">Checkout Process</h2>
       <div className="row g-4">
         
-       {message.text && (
-          <h3 className={`alert alert-${message.type} text-center`} role="alert">
-            {message.text}
-          </h3>
+        {message.text && (
+          <div className="col-12">
+            <h3 className={`alert alert-${message.type} text-center`} role="alert">
+              {message.text}
+            </h3>
+          </div>
         )}
+
         <div className="col-lg-6 col-md-12">
           <div className="bg-white p-4 rounded-4 shadow-sm border">
-            <h4 className="fw-bold mb-4 text-dark"><i className="fas fa-shipping-fast me-2 text-warning"></i>Shipping Details</h4>
+            <h4 className="fw-bold mb-4 text-dark">
+              <i className="fas fa-shipping-fast me-2 text-warning"></i>Shipping Details
+            </h4>
             <form onSubmit={handlePlaceOrder}>
               
               <div className="mb-3">
@@ -71,7 +93,7 @@ export const Checkout = ({ cartItems, user, onCheckout }) => {
 
               <div className="mb-3">
                 <label className="form-label small fw-bold text-muted">Email Address</label>
-                <input type="email" className="form-control py-2 bg-light" value={user ? user.email : 'Guest@example.com'} disabled />
+                <input type="email" className="form-control py-2 bg-light" value={user ? user.email : 'guest@example.com'} disabled />
               </div>
 
               <div className="mb-3">
@@ -79,7 +101,7 @@ export const Checkout = ({ cartItems, user, onCheckout }) => {
                 <input 
                   type="tel" 
                   className="form-control py-2" 
-                  placeholder="e.g. +212 600000000" 
+                  placeholder="e.g. 060000000" 
                   value={phone} 
                   onChange={(e) => setPhone(e.target.value)} 
                   required 
@@ -92,7 +114,7 @@ export const Checkout = ({ cartItems, user, onCheckout }) => {
                   <input 
                     type="text" 
                     className="form-control py-2" 
-                    placeholder="e.g. morocco" 
+                    placeholder="e.g. Agadir" 
                     value={city} 
                     onChange={(e) => setCity(e.target.value)} 
                     required 
@@ -122,18 +144,20 @@ export const Checkout = ({ cartItems, user, onCheckout }) => {
           </div>
         </div>
 
-
         <div className="col-lg-6 col-md-12">
           <div className="bg-white p-4 rounded-4 shadow-sm border">
-            <h4 className="fw-bold mb-3 text-dark"><i className="fas fa-shopping-basket me-2 text-warning"></i>Order Summary</h4>
+            <h4 className="fw-bold mb-3 text-dark">
+              <i className="fas fa-shopping-basket me-2 text-warning"></i>Order Summary
+            </h4>
             <hr />
             
-           
             <div className="mb-3" style={{ maxHeight: '200px', overflowY: 'auto' }}>
               {cartItems.map((item, index) => (
-                <div key={index} className="d-flex justify-content-between align-items-center mb-2 small">
-                  <span className="text-muted">{item.name}</span>
-                  <span className="fw-bold text-dark">{item.price}</span>
+                <div key={item._id || item.id || index} className="d-flex justify-content-between align-items-center mb-2 small">
+                  <span className="text-muted">{item.title}</span>
+                  <span className="fw-bold text-dark">
+                    ${typeof item.price === 'number' ? item.price.toFixed(2) : item.price}
+                  </span>
                 </div>
               ))}
             </div>
@@ -145,7 +169,9 @@ export const Checkout = ({ cartItems, user, onCheckout }) => {
             </div>
             <div className="d-flex justify-content-between fs-4 mb-2">
               <span>Total Price:</span>
-              <span className="fw-bold text-success">${calculateTotal().toLocaleString()}</span>
+              <span className="fw-bold text-success">
+                ${calculateTotal().toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              </span>
             </div>
           </div>
         </div>
@@ -154,3 +180,5 @@ export const Checkout = ({ cartItems, user, onCheckout }) => {
     </div>
   );
 };
+
+export default Checkout;

@@ -4,12 +4,14 @@ import { Cardsshop } from './Layout/Cardsshop';
 export const Home = ({ bikes, onAddToCart }) => {
   return (
     <>
-    <header>
+      <header>
         <Carsoul />
-    </header>
-    <main>
-        <Cardsshop bikes={bikes} onAddToCart={addToCart => onAddToCart(addToCart)} />
-    </main>
+      </header>
+      <main>
+        <Cardsshop bikes={bikes} onAddToCart={onAddToCart} />
+      </main>
     </>
   );
-}
+};
+
+export default Home;

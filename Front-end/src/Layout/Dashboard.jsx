@@ -215,7 +215,7 @@ export const Dashboard = ({ products = [], setProducts }) => {
                     <label className="form-label small fw-bold text-muted">Description</label>
                     <textarea className="form-control" rows="3" value={newProductDesc} onChange={(e) => setNewProductDesc(e.target.value)}></textarea>
                   </div>
-                  <button type="submit" className="btn w-100 fw-bold text-white mb-2" style={{ backgroundColor: '#ff4000' }}>
+                  <button type="submit" className="btn w-100 fw-bold text-white mb-2  " style={{ backgroundColor: '#fff', color: '#ff4000' }}>
                     Add Product
                   </button>
                   <button type="button" className="btn w-100 fw-bold btn-light" onClick={() => navigate('/#bikes')}>

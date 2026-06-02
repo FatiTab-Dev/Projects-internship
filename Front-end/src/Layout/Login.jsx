@@ -12,41 +12,101 @@ export const Login = ({onLogin}) => {
   const [message, setMessage] = useState({ text: '', type: '' });
 
   const navigate = useNavigate();
+  const API = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (activeTab === 'login') {
-      console.log("Signing in:", email);
-      if (email === 'admin@gmail.com' && password === 'admin123') {
-        const adminUser = { email, role: 'admin', isAdmin: true };
-        localStorage.setItem('user', JSON.stringify(adminUser));
-        if (onLogin) onLogin(adminUser);
-        setMessage({ text: 'Welcome Admin to Dashboard! 🛠️', type: 'success' });
-        navigate('/dashboard');}
-        else {
-       const usersList = JSON.parse(localStorage.getItem('users')) || [];
-       const foundUser = usersList.find(u => u.email === email && u.password === password);
-       if (!foundUser) {
-         setMessage({ text: 'Invalid email or password. Please try again. ❌', type: 'danger' });
-         return;
-       }
-        if (onLogin) onLogin(foundUser);
-        localStorage.setItem('user', JSON.stringify(foundUser));
-        setMessage({ text: 'Welcome Back! 🎉', type: 'success' });
-        navigate('/'); }
-    } else {
-      console.log("Creating Account:", name, email);
-      const newUser = { name, email, password: password, role: 'user', isAdmin: false };
-      const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
-      existingUsers.push(newUser);
-      localStorage.setItem('users', JSON.stringify(existingUsers));
-      setMessage({ text: 'Account Created Successfully! 🚀', type: 'success' });
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  console.log("Sending request to:", `${API}/api/auth/login`);
+
+  if (activeTab === 'login') {
+    try {
+      const response = await fetch(`${API}/api/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+ console.log("Response status:", response.status);
+      const data = await response.json();
+      console.log("Response data:", data);
+
+      if (!response.ok) {
+        setMessage({
+          text: data.message || 'Invalid email or password',
+          type: 'danger',
+        });
+        return;
+      }
+
+      localStorage.setItem('user', JSON.stringify(data.user));
+
+      if (onLogin) {
+        onLogin(data.user);
+      }
+
+      setMessage({
+        text: 'Welcome Back! 🎉',
+        type: 'success',
+      });
+
+      if (data.user.role === 'admin') {
+        navigate('/dashboard');
+      } else {
+        navigate('/');
+      }
+
+    } catch (error) {
+      setMessage({
+        text: 'Server Error',
+        type: 'danger',
+      });
+    }
+  } else {
+    try {
+      const response = await fetch(`${API}/api/auth/signup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setMessage({
+          text: data.message,
+          type: 'danger',
+        });
+        return;
+      }
+
+      setMessage({
+        text: 'Account Created Successfully! 🚀',
+        type: 'success',
+      });
+
       setActiveTab('login');
       setName('');
       setEmail('');
       setPassword('');
-  };
-     };
+
+    } catch (error) {
+      setMessage({
+        text: 'Server Error',
+        type: 'danger',
+      });
+    }
+  }
+};
 
   return (
     <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: '100vh', backgroundColor: '#f8f9fa' }}>
