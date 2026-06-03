@@ -1,12 +1,12 @@
-import User from '../models/User.js'; 
+import User from '../models/User.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
 const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
+  return jwt.sign({ id }, process.env.JWT_SECRET ,{ expiresIn: '30d' });
 };
 
-export const signup = async (req, res) => {
+export const register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
@@ -24,7 +24,7 @@ export const signup = async (req, res) => {
     res.status(201).json({
       message: 'User registered successfully',
       token: generateToken(user._id),
-      user: { id: user._id, name: user.name, email: user.email, role: user.role, isAdmin: user.isAdmin }
+      user: { id: user._id, name: user.name, email: user.email }
     });
   } catch (error) {
     res.status(500).json({ message: 'Server error during signup' });
@@ -40,7 +40,7 @@ export const login = async (req, res) => {
     if (user && (await bcrypt.compare(password, user.password))) {
       res.status(200).json({
         token: generateToken(user._id),
-        user: { id: user._id, name: user.name, email: user.email, role: user.role, isAdmin: user.isAdmin }
+        user: { id: user._id, name: user.name, email: user.email}
       });
     } else {
       res.status(401).json({ message: 'Invalid email or password' });
