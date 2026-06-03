@@ -21,7 +21,7 @@ router.post('/', async (req, res) =>{
     const savedOrder = await newOrder.save();
     res.status(201).json(savedOrder);
     }catch (error){
-        res.status(500).json({message: 'Server Error: Can\'t place order', error: error.message});
+        res.status(500).json({message: 'Can\'t place order', error: error.message});
     }
 });
 
@@ -31,7 +31,7 @@ router.get('/', async (req, res) =>{
          const orders = await Order.find().sort({ createdAt: -1 });
         res.status(200).json(orders);
     } catch (error){
-        res.status(500).json({message:'Server Error: Can\'t fetch orders', error: error.message });
+        res.status(500).json({message:'Can\'t fetch orders', error: error.message });
 
     }
 });

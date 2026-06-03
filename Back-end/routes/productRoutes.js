@@ -8,7 +8,7 @@ router.get('/', async (req,res) =>{
     res.status(200).json(products);
   }
   catch(error){
-    res.status(500).json({messge:'Server Error: Can\'t fetch products', error: error.message});
+    res.status(500).json({messge:'Can\'t fetch products', error: error.message});
   }
 });
 router.get('/:id', async (req, res) => {
@@ -22,7 +22,7 @@ router.get('/:id', async (req, res) => {
     res.status(200).json(product);
   } catch (error) {
     res.status(500).json({
-      message: "Server Error: Can't fetch product",
+      message: "Can't fetch product",
       error: error.message
     });
   }
@@ -46,7 +46,7 @@ router.post('/', async (req, res) =>{
     res.status(201).json(savedProduct);
   }
   catch (error){
-  res.status(500).json({ message: 'Server Error: Can\'t add product', error: error.message });
+  res.status(500).json({ message: 'Can\'t add product', error: error.message });
   }
 });
 
