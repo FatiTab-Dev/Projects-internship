@@ -77,3 +77,76 @@ export const updateProfile = async (req, res) => {
     res.status(500).json({ message: 'Error updating profile' });
   }
 };
+// get user profile by id
+export const getUserProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId).select('-password');
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching profile' });
+  }
+};
+// toggle follow
+export const toggleFollow = async (req, res) => {
+  try {
+    if (req.user._id.toString() === req.params.userId) {
+      return res.status(400).json({ message: "You can't follow yourself" });
+    }
+
+    const userToFollow = await User.findById(req.params.userId);
+    const currentUser = await User.findById(req.user._id);
+
+    if (!userToFollow) return res.status(404).json({ message: 'User not found' });
+
+    const isFollowing = currentUser.following.includes(req.params.userId);
+
+    if (isFollowing) {
+      // unfollow
+      currentUser.following = currentUser.following.filter(
+        id => id.toString() !== req.params.userId
+      );
+      userToFollow.followers = userToFollow.followers.filter(
+        id => id.toString() !== req.user._id.toString()
+      );
+    } else {
+      // follow
+      currentUser.following.push(req.params.userId);
+      userToFollow.followers.push(req.user._id);
+    }
+
+    await currentUser.save();
+    await userToFollow.save();
+
+    res.status(200).json({
+      following: currentUser.following,
+      isFollowing: !isFollowing
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Error toggling follow' });
+  }
+};
+
+// get followers
+export const getFollowers = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId)
+      .populate('followers', 'name profilePicture bio');
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    res.status(200).json(user.followers);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching followers' });
+  }
+};
+
+// get following
+export const getFollowing = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId)
+      .populate('following', 'name profilePicture bio');
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    res.status(200).json(user.following);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching following' });
+  }
+};

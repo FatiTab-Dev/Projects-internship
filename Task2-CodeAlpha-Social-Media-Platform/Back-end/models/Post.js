@@ -2,8 +2,8 @@ import mongoose from 'mongoose';
 import User from './User.js';
 
 const PostShema = new mongoose.Schema({
-   User: { 
-     type:mongoose.Schema.ObjectId,
+   user: { 
+     type:mongoose.Schema.Types.ObjectId,
      ref: 'User',
      required: true
     },
@@ -16,7 +16,7 @@ const PostShema = new mongoose.Schema({
    },
    image: {
    type: String,
-   dafault:''
+   default:''
    },
    likes: [{
       type: mongoose.Schema.Types.ObjectId, 
@@ -27,7 +27,7 @@ const PostShema = new mongoose.Schema({
     text: { type: String, required: true },
     createdAt: { type: Date, default: Date.now }
    }]
-});
+}, { timestamps: true }); 
 
 const Post = mongoose.model('Post', PostShema);
 export default Post;
