@@ -4,9 +4,14 @@ import Post from '../models/Post.js';
 export const createPost = async (req, res) => {
     try {
         const {text} = req.body;
+        let imagePath = '';
+        if (req.file) {
+      imagePath = `/uploads/${req.file.filename}`;
+    }
         const newPost = await Post.create({
             user : req.user._id,
-            text
+            text,
+            image: imagePath
         });
         res.status(201).json({newPost});
     }catch(error){
