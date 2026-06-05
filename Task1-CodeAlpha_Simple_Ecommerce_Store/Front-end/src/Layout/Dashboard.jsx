@@ -269,7 +269,7 @@ export const Dashboard = ({ products = [], setProducts }) => {
                   <table className="table align-middle">
                     <thead>
                       <tr className="text-muted small">
-                        <th>Image</th><th>Name</th><th>Price</th><th>Stock</th><th>Sales</th><th>Actions</th>
+                        <th>Image</th><th>Name</th><th>Price</th><th>Stock</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -305,9 +305,6 @@ export const Dashboard = ({ products = [], setProducts }) => {
                                     {product.stock ?? 0} left
                                   </span>
                                 }
-                              </td>
-                              <td className="fw-bold text-primary">
-                                <i className="fas fa-shopping-basket me-1"></i> {product.sales || 0} sold
                               </td>
                               <td>
                                 {isEditing ? (
