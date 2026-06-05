@@ -36,4 +36,17 @@ router.get('/', async (req, res) =>{
     }
 });
 
+router.put('/:id', async (req, res) => {
+  try {
+    const updated = await Order.findByIdAndUpdate(
+      req.params.id, 
+      req.body, 
+      { new: true }
+    );
+    res.status(200).json(updated);
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating order', error: error.message });
+  }
+});
+
 export default router;

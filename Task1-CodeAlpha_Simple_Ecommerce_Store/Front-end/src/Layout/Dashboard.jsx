@@ -152,7 +152,7 @@ export const Dashboard = ({ products = [], setProducts }) => {
                 <table className="table align-middle">
                   <thead> 
                     <tr className="text-muted small">
-                      <th>Order ID</th><th>Customer</th><th>Contact</th><th>Items</th><th>Total</th><th>Status</th><th>Date</th>
+                      <th>Order ID</th><th>Customer</th><th>Contact</th><th>Address</th><th>Items</th><th>Total</th><th>Status</th><th>Date</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -168,13 +168,41 @@ export const Dashboard = ({ products = [], setProducts }) => {
                               <small className="text-muted">{order.customerEmail || 'none'}</small>
                             </td>
                             <td><div className="fw-semibold text-dark">{order.phone || ''}</div></td>
+                            <td><div className="fw-semibold text-dark">{order.address || 'N/A'}</div></td>
                             <td><div className="fw-semibold text-dark">{(order.items?.length || 0)} items</div></td>
                             <td className="fw-bold text-success">{(order.totalAmount || 0).toFixed(2)} MAD</td>
-                            <td>
-                              <span className={`badge ${order.status === 'completed' ? 'bg-success' : 'bg-warning text-dark'}`}>
-                                {order.status || 'pending'}
-                              </span>
+                           <td>
+                            <select
+                              className="form-select form-select-sm"
+                               value={order.status || 'pending'}
+                                onChange={async (e) => {
+                                const newStatus = e.target.value;
+                                try {
+                                const res = await fetch(`${API}/api/orders/${oId}`, {
+                                method: 'PUT',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ status: newStatus })
+                             });
+                               if (res.ok) {
+                             setOrders(prev => prev.map(o => 
+                             (o._id === oId || o.id === oId) ? { ...o, status: newStatus } : o
+                              ));
+                              }
+                            } catch {
+                           setMessage({ text: 'Error updating status', type: 'danger' });
+                             }
+                            }}
+                            style={{ 
+                            borderColor: order.status === 'completed' ? '#198754' : '#ffc107',
+                            color: order.status === 'completed' ? '#198754' : '#856404'
+                            }}
+                           >
+                           <option value="pending">pending</option>
+                           <option value="completed">completed</option>
+                            <option value="cancelled">cancelled</option>
+                             </select>
                             </td>
+                           
                             <td>{order.createdAt || order.date ? new Date(order.createdAt || order.date).toLocaleDateString() : 'N/A'}</td>
                           </tr>
                         );

@@ -114,7 +114,7 @@ export const Checkout = ({ cartItems, user, onCheckout }) => {
                   <input 
                     type="text" 
                     className="form-control py-2" 
-                    placeholder="e.g. Agadir" 
+                    placeholder="e.g.Casablanca" 
                     value={city} 
                     onChange={(e) => setCity(e.target.value)} 
                     required 
