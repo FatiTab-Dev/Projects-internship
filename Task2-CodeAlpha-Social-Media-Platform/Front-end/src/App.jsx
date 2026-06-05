@@ -4,6 +4,7 @@ import { Navbar } from './layout/Navbar';
 import { Home } from './layout/Home';
 import { Profile } from './layout/Profile';
 import { UserProfile } from './layout/UserProfile';
+import { Notifications } from './layout/Notifications';
 import { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -28,6 +29,7 @@ return (
   />
   <Route path="/profile" element={user ? <Profile /> : <Navigate to="/login" />} />
   <Route path="/profile/:userId" element={user ? <UserProfile /> : <Navigate to="/login" />} />
+  <Route path="/notifications" element={user ? <Notifications /> : <Navigate to="/login" />} />
 </Routes>
       </div>
     </Router>

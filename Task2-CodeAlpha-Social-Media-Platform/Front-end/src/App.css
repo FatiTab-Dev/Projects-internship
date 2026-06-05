@@ -133,7 +133,7 @@ nav.navbar .navbar-nav a.nav-link.custom-login-btn:hover {
   border-color: #2e59d9 !important;
   box-shadow: 0 4px 12px rgba(255, 64, 0, 0.2);
 }
-.home,.profile{
+.home,.profile,.card{
   margin-top: 50px;
   padding-top: 50px;
 }

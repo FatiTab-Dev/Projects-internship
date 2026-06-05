@@ -1,4 +1,5 @@
 import Post from '../models/Post.js';
+import Notification from '../models/Notification.js'; 
 
 // create post
 export const createPost = async (req, res) => {
@@ -15,7 +16,7 @@ export const createPost = async (req, res) => {
     });
     const populatedPost = await Post.findById(newPost._id)
       .populate('user', 'name profilePicture');
-    res.status(201).json(populatedPost); 
+    res.status(201).json(populatedPost);
   } catch (error) {
     res.status(500).json({ message: 'Error creating post' });
   }
@@ -26,7 +27,7 @@ export const getPosts = async (req, res) => {
   try {
     const posts = await Post.find()
       .populate('user', 'name profilePicture')
-      .populate('comments.user', 'name profilePicture') 
+      .populate('comments.user', 'name profilePicture')
       .sort({ createdAt: -1 });
     res.status(200).json(posts);
   } catch (error) {
@@ -39,7 +40,7 @@ export const getUserPosts = async (req, res) => {
   try {
     const posts = await Post.find({ user: req.params.userId })
       .populate('user', 'name profilePicture')
-      .populate('comments.user', 'name profilePicture') // ← زدنا
+      .populate('comments.user', 'name profilePicture')
       .sort({ createdAt: -1 });
     res.status(200).json(posts);
   } catch (error) {
@@ -84,12 +85,31 @@ export const toggleLike = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     if (!post) return res.status(404).json({ message: 'Post not found' });
+
     const isLiked = post.likes.includes(req.user._id);
+
     if (isLiked) {
       post.likes = post.likes.filter(id => id.toString() !== req.user._id.toString());
+   
+      await Notification.findOneAndDelete({
+        recipient: post.user,
+        sender: req.user._id,
+        type: 'like',
+        post: post._id
+      });
     } else {
       post.likes.push(req.user._id);
+     
+      if (post.user.toString() !== req.user._id.toString()) {
+        await Notification.create({
+          recipient: post.user,
+          sender: req.user._id,
+          type: 'like',
+          post: post._id
+        });
+      }
     }
+
     await post.save();
     res.status(200).json(post);
   } catch (error) {
@@ -103,12 +123,24 @@ export const addComment = async (req, res) => {
     const { text } = req.body;
     const post = await Post.findById(req.params.id);
     if (!post) return res.status(404).json({ message: 'Post not found' });
+
     post.comments.push({ user: req.user._id, text });
     await post.save();
+
+   
+    if (post.user.toString() !== req.user._id.toString()) {
+      await Notification.create({
+        recipient: post.user,
+        sender: req.user._id,
+        type: 'comment',
+        post: post._id
+      });
+    }
+
     const populatedPost = await Post.findById(post._id)
       .populate('user', 'name profilePicture')
-      .populate('comments.user', 'name profilePicture'); 
-    res.status(201).json(populatedPost); 
+      .populate('comments.user', 'name profilePicture');
+    res.status(201).json(populatedPost);
   } catch (error) {
     res.status(500).json({ message: 'Error adding comment' });
   }
