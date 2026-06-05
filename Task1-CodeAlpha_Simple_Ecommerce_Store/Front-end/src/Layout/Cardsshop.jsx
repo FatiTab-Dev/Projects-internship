@@ -84,7 +84,7 @@ export const Cardsshop = ({ onAddToCart }) => {
 
                   <div className="mt-3">
                     <span className="fw-bold price d-block fs-4 mb-2">
-                   ${Number(bike.price).toLocaleString()}
+                   {(bike.price)} MAD
                    </span>
 
                     <div className="d-flex justify-content-center gap-2">

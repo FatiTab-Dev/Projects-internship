@@ -169,7 +169,7 @@ export const Dashboard = ({ products = [], setProducts }) => {
                             </td>
                             <td><div className="fw-semibold text-dark">{order.phone || ''}</div></td>
                             <td><div className="fw-semibold text-dark">{(order.items?.length || 0)} items</div></td>
-                            <td className="fw-bold text-success">${(order.totalAmount || 0).toFixed(2)}</td>
+                            <td className="fw-bold text-success">{(order.totalAmount || 0).toFixed(2)} MAD</td>
                             <td>
                               <span className={`badge ${order.status === 'completed' ? 'bg-success' : 'bg-warning text-dark'}`}>
                                 {order.status || 'pending'}
@@ -200,7 +200,7 @@ export const Dashboard = ({ products = [], setProducts }) => {
                     <input type="text" className="form-control" value={newProductName} onChange={(e) => setNewProductName(e.target.value)} />
                   </div>
                   <div className="mb-3">
-                    <label className="form-label small fw-bold text-muted">Price ($)</label>
+                    <label className="form-label small fw-bold text-muted">Price (MAD)</label>
                     <input type="number" className="form-control" value={newProductPrice} onChange={(e) => setNewProductPrice(e.target.value)} />
                   </div>
                   <div className="mb-3">
@@ -260,7 +260,7 @@ export const Dashboard = ({ products = [], setProducts }) => {
                                 )}
                               </td>
                               <td className="fw-bold text-secondary">
-                                {isEditing ? <input type="number" className="form-control form-control-sm" style={{ width: '80px' }} value={editPrice} onChange={(e) => setEditPrice(e.target.value)} /> : `$${product.price || 0}`}
+                                {isEditing ? <input type="number" className="form-control form-control-sm" style={{ width: '80px' }} value={editPrice} onChange={(e) => setEditPrice(e.target.value)} /> : `MAD${product.price || 0}`}
                               </td>
                               <td>
                                 {isEditing ? <input type="number" className="form-control form-control-sm" style={{ width: '70px' }} value={editStock} onChange={(e) => setEditStock(e.target.value)} /> : 

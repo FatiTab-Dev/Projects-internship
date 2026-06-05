@@ -156,7 +156,7 @@ export const Checkout = ({ cartItems, user, onCheckout }) => {
                 <div key={item._id || item.id || index} className="d-flex justify-content-between align-items-center mb-2 small">
                   <span className="text-muted">{item.title}</span>
                   <span className="fw-bold text-dark">
-                    ${typeof item.price === 'number' ? item.price.toFixed(2) : item.price}
+                    {typeof item.price === 'number' ? item.price.toFixed(2) : item.price} MAD
                   </span>
                 </div>
               ))}
@@ -170,7 +170,7 @@ export const Checkout = ({ cartItems, user, onCheckout }) => {
             <div className="d-flex justify-content-between fs-4 mb-2">
               <span>Total Price:</span>
               <span className="fw-bold text-success">
-                ${calculateTotal().toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                {calculateTotal().toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} MAD
               </span>
             </div>
           </div>

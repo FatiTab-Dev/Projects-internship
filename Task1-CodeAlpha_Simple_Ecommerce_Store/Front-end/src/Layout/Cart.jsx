@@ -63,7 +63,7 @@ export const Cart = ({ cartItems }) => {
                         </td>
                         <td className="fw-bold text-dark">{item.title || 'No Title'}</td>
                         <td className="text-dark fw-bold">
-                          ${typeof item.price === 'number' ? item.price.toFixed(2) : item.price}
+                          MAD{typeof item.price === 'number' ? item.price.toFixed(2) : item.price}
                         </td>
                       </tr>
                     );
@@ -84,7 +84,7 @@ export const Cart = ({ cartItems }) => {
               <div className="d-flex justify-content-between fs-4 mb-4">
                 <span>Total Price:</span>
                 <span className="fw-bold text-success">
-                  ${calculateTotal().toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                 {calculateTotal().toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} MAD
                 </span>
               </div>
               <button 
