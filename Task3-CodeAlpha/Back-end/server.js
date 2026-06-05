@@ -1,9 +1,9 @@
 import express from 'express';
+import 'dotenv/config';
 import cors from 'cors';
 import helmet from 'helmet';
 import path from 'path';
-import connectDB from './conf/db.js';
-import 'dotenv/config';
+import connectDB from './src/conf/db.js';
 const app = express();
 connectDB();
 app.use(cors());
