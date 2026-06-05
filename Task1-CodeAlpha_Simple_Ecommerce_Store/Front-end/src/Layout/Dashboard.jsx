@@ -169,7 +169,16 @@ export const Dashboard = ({ products = [], setProducts }) => {
                             </td>
                             <td><div className="fw-semibold text-dark">{order.phone || ''}</div></td>
                             <td><div className="fw-semibold text-dark">{order.address || 'N/A'}</div></td>
-                            <td><div className="fw-semibold text-dark">{(order.items?.length || 0)} items</div></td>
+                            <td>
+                             <div className="fw-semibold text-dark">{(order.items?.length || 0)} items</div>
+                              <div className="mt-1">
+                               {order.items?.map((item, i) => (
+                               <small key={i} className="d-block text-muted">
+                               • {item.title} x{item.quantity} — {(item.price * item.quantity).toFixed(2)} MAD
+                               </small>
+                                ))}
+                              </div>
+                            </td>
                             <td className="fw-bold text-success">{(order.totalAmount || 0).toFixed(2)} MAD</td>
                            <td>
                             <select
