@@ -1,4 +1,5 @@
 import Project from '../models/Project.js';
+import User from '../models/User.js';
 
 // create Project 
 export const createProject = async (req, res) => {
@@ -66,4 +67,27 @@ export const getProjectById = async (req, res) => {
   }catch(error){
     res.status(500).json({message:'Error'});
   }
+ };
+
+ // invite member 
+ export const inviteMember = async (req, res) =>{
+   try {
+    const project = await Project.findById(req.params.id);
+    if(!project)  return res.status(404).json({ message: 'project not found' });
+    if (project.owner.toString() !== req.user._id.toString()) {
+    return res.status(401).json({ message: 'Not authorized' });
+    } 
+    const {email} = req.body;
+    const userToInvite = await User.findOne({ email });
+     if(!userToInvite) return res.status(404).json({message:'User not found'});
+    if (project.members.includes(userToInvite._id)){
+      return res.status(400).json({message:'Useer already a member'});
+    }
+    
+    project.members.push(userToInvite._id);
+    await project.save();
+    res.status(200).json({ message: 'Member invited successfully' });
+  }catch(error){
+   res.status(500).json({ message: 'Error' });
+   }
  };
