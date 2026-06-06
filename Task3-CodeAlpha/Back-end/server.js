@@ -7,6 +7,7 @@ import connectDB from './src/conf/db.js';
 import authRoutes from './src/routes/authRoutes.js';
 import projectRoutes from './src/routes/projectsRoutes.js';
 import taskRoutes from './src/routes/tasksRoutes.js';
+import commentRoutes from './src/routes/commentsRoutes.js';
 const app = express();
 connectDB();
 app.use(express.json());
@@ -17,6 +18,7 @@ app.use(helmet({
 app.use('/api/auth', authRoutes);
 app.use('api/projects',projectRoutes);
 app.use('api/tasks',taskRoutes);
+app.use('api/comments',commentRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

@@ -1,6 +1,6 @@
 import Task from '../models/Task.js';
 
-// creat Task
+// create Task
 export const createTask = async(req, res) =>{
  try{
     const { title,description, projectId,assignedTo,dueDate } = req.body;
@@ -19,7 +19,7 @@ export const getTask = async (req, res) => {
      const populatedTask = await Task.find({projectId: req.params.projectId});
     res.status(200).json(populatedTask);
    }catch(error){
-    res.status(500).json({ message: 'Error not found project' });
+    res.status(500).json({ message: 'Error' });
    }
  };
 
