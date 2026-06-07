@@ -1,16 +1,17 @@
-# React + Vite
+# Social Media Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A mini social media application designed for real-time interaction and community engagement.
 
-Currently, two official plugins are available:
+## Key Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Social Interaction:** Create, view, and comment on posts.
+- **Engagement:** Like posts and follow/unfollow functionality.
+- **Robust Security:** Secure access control via **JWT** and password hashing using **bcrypt**.
+- **API Efficiency:** Data fetching optimized with **Axios**.
+- **User Profiles:** Personalized account management.
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **Frontend:** React.js, Bootstrap, CSS
+- **Backend:** Node.js, Express.js
+- **Database:** MongoDB
