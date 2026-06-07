@@ -97,3 +97,49 @@ html, body, #root {
   border-color: #58a6ff;
   box-shadow: none;
 }
+/* Navbar */
+.navbar {
+  background-color: #022234 !important;
+  border-bottom: 1px solid #044379;
+}
+
+/* Modal */
+.modal-content {
+  background-color: #022234;
+  border: 1px solid #044379;
+  color: #e6edf3;
+}
+
+.modal-header {
+  border-bottom: 1px solid #044379;
+}
+
+.modal-footer {
+  border-top: 1px solid #044379;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  color: #03c5e3;
+}
+
+/* Select */
+.form-select {
+  background-color: #022234;
+  border: 1px solid #044379;
+  color: #e6edf3;
+}
+
+.form-select:focus {
+  background-color: #146a7d63;
+  border-color: #58a6ff;
+  box-shadow: none;
+  color: #e6edf3;
+}
+
+/* Textarea */
+textarea {
+  background-color: #022234 !important;
+  color: #e6edf3 !important;
+  border: 1px solid #044379 !important;
+}

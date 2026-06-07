@@ -1,4 +1,5 @@
 import Task from '../models/Task.js';
+import Notification from '../models/Notification.js';
 
 // create Task
 export const createTask = async(req, res) =>{
@@ -7,6 +8,15 @@ export const createTask = async(req, res) =>{
       const newTask= await Task.create({
       title,description ,projectId,assignedTo,dueDate , creatBy:req.user._id 
    });
+   if (assignedTo) {
+            const notification = await Notification.create({
+                userId: assignedTo,
+                message: `You have been assigned a new task: ${title}`,
+                text: `You have been assigned a new task: ${title}` 
+            });
+            const io = req.app.get('io');
+            io.to(assignedTo.toString()).emit('notification', notification);
+        }
     res.status(201).json(newTask);
  }catch(error){
  res.status(500).json({message:'Error'});

@@ -5,13 +5,14 @@ import { useAuth } from '../context/AuthContext';
 export const Dashboard = () =>{
  const [project, setProject] =  useState([]);
  const [message, setMessage] = useState ({ text: '', type:''});
- const {token, logout} = useAuth();
+ const { token, logout, notifications,setNotifications } = useAuth();
  const [showModal, setShowModal] = useState(false);
-const [newTitle, setNewTitle] = useState('');
-const [newDesc, setNewDesc] = useState('');
-const [editingProject, setEditingProject] = useState(null);
-const [invitingProject, setInvitingProject] = useState(null);
-const [inviteEmail, setInviteEmail] = useState('');
+ const [showNotifications, setShowNotifications] = useState(false);
+ const [newTitle, setNewTitle] = useState('');
+ const [newDesc, setNewDesc] = useState('');
+ const [editingProject, setEditingProject] = useState(null);
+ const [invitingProject, setInvitingProject] = useState(null);
+ const [inviteEmail, setInviteEmail] = useState('');
  const navigate = useNavigate();
  const API = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
  useEffect (() => {
@@ -21,9 +22,9 @@ const [inviteEmail, setInviteEmail] = useState('');
     .then(res => res.json())
     .then(data => setProject(Array.isArray(data) ? data : []))
     .catch (()=> setMessage({text:'Error fetching projects', type: 'danger' }));
- }, []);
+ }, [API, token]);
 
- const creatProject = async (title, description) => {
+ const creatProject = async () => {
     try {
         const res = await fetch (`${API}/projects`, {
             method:'POST',
@@ -95,25 +96,72 @@ const updateProject = async () => {
         setMessage({ text: 'Error updating project', type: 'danger' });
     }
 };
+useEffect(() => {
+    fetch(`${API}/notifications`, {
+        headers: { Authorization: `Bearer ${token}` }
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (Array.isArray(data)) {
+          setNotifications(data); 
+        }
+    });
+},  [API, token,setNotifications]);
+const markAsRead = async (notificationId) => {
+    try {
+        await fetch(`${API}/notifications/${notificationId}`, {
+            method: 'PUT',
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        setNotifications(prev => prev.map(n => 
+            n._id === notificationId ? {...n, read: true} : n
+        ));
+    } catch {
+        console.log('Error marking as read');
+    }
+};
  const handleLogout = () => {
     logout();
     navigate('login');
  }
  return (
     <div className='container'>
-        <nav className='navbar-brand navbar navbar-expand-lg shadow-sm sticky-top'>
-            <ul><li className="nav-item">
-             <button className="btn btn-primary" onClick={() => setShowModal(true)}>
-              Create Project
-             </button>
-            </li>
-            <li className="nav-item">
-              <button className="btn btn-outline-light btn-sm" onClick={handleLogout}>
-                <i className="fas fa-sign-out-alt me-1"></i> Logout
-              </button>
-            </li>
-            </ul>
-        </nav>
+        <nav className='navbar navbar-expand-lg shadow-sm sticky-top'>
+    <div className='container d-flex align-items-center justify-content-start gap-2'>
+        <div className='position-relative'>
+    <button className="btn btn-outline-info btn-sm position-relative" onClick={() => setShowNotifications(!showNotifications)}>
+        🔔
+       {notifications.filter(n => !n.read).length > 0 && (
+    <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+        {notifications.filter(n => !n.read).length}
+    </span>
+)}
+    </button>
+    {showNotifications && (
+        <div className='card position-absolute p-2' style={{width:'300px', zIndex:1000, top:'40px'}}>
+            {notifications.length === 0 ? (
+                <p className='text-center small'>No notifications</p>
+            ) : (
+                notifications.map(n => (
+                    <div key={n._id} className='p-2 border-bottom small d-flex justify-content-between align-items-center'>
+                        <span>{n.message || n.text}</span>
+        {!n.read && (
+            <button className='btn btn-sm btn-outline-info' onClick={() => markAsRead(n._id)}>✓</button>
+        )}
+                    </div>
+                ))
+            )}
+        </div>
+    )}
+</div>
+        <button className="btn btn-outline-info" onClick={() => setShowModal(true)}>
+            Create Project
+        </button>
+        <button className="btn btn-outline-info btn-sm ms-auto" onClick={handleLogout}>
+            Logout
+        </button>
+    </div>
+</nav>
         {message.text && <div className={`alert alert-${message.type} mt-3 small`}>{message.text}</div>}
        {showModal && (
     <div className="modal show d-block">
@@ -128,8 +176,8 @@ const updateProject = async () => {
                     <textarea className="form-control" placeholder="Description" value={newDesc} onChange={(e) => setNewDesc(e.target.value)} />
                 </div>
                 <div className="modal-footer">
-                    <button className="btn btn-secondary" onClick={() => setShowModal(false)}>Cancel</button>
-                    <button className="btn btn-primary" onClick={creatProject}>Create</button>
+                    <button className="btn btn-outline-secondary" onClick={() => setShowModal(false)}>Cancel</button>
+                    <button className="btn btn-outline-info" onClick={creatProject}>Create</button>
                 </div>
             </div>
         </div>
@@ -184,8 +232,8 @@ const updateProject = async () => {
                     <textarea className="form-control" placeholder="Description" value={newDesc} onChange={(e) => setNewDesc(e.target.value)} />
                 </div>
                 <div className="modal-footer">
-                    <button className="btn btn-secondary" onClick={() => setEditingProject(null)}>Cancel</button>
-                    <button className="btn btn-warning" onClick={updateProject}>Save</button>
+                    <button className="btn btn-outline-secondary" onClick={() => setEditingProject(null)}>Cancel</button>
+                    <button className="btn btn-outline-info" onClick={updateProject}>Save</button>
                 </div>
             </div>
         </div>

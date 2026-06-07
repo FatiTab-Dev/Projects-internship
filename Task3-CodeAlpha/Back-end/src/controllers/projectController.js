@@ -1,5 +1,6 @@
 import Project from '../models/Project.js';
 import User from '../models/User.js';
+import Notification from '../models/Notification.js';
 
 // create Project 
 export const createProject = async (req, res) => {
@@ -86,6 +87,13 @@ export const getProjectById = async (req, res) => {
     
     project.members.push(userToInvite._id);
     await project.save();
+     const notification = await Notification.create({
+     userId: userToInvite._id,
+    message: `${req.user.name} invited you to join project: ${project.title}`,
+    text: `${req.user.name} invited you to join project: ${project.title}`
+   });
+   const io = req.app.get('io');
+   io.to(userToInvite._id.toString()).emit('notification', notification);
     res.status(200).json({ message: 'Member invited successfully' });
   }catch(error){
    res.status(500).json({ message: 'Error' });

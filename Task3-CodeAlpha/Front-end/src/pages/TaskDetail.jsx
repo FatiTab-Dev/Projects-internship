@@ -6,7 +6,7 @@ export const TaskDetail =() => {
     const [message, setMessage] = useState({ text: '', type: '' });
     const [comment, setcomment] = useState([]);
     const [newcomment, cetNewComment] = useState('');
-    const [editingComment, setEditingComment] = useState(null);
+    const [ setEditingComment] = useState(null);
     const { token } = useAuth();
     const { id } = useParams();
     const navigate= useNavigate();

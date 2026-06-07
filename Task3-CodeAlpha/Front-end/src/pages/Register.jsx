@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+
 
 export const Register = () => {
   
@@ -11,7 +11,6 @@ export const Register = () => {
    const [message, setMessage] = useState({ text: '', type: '' });
    const API = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
    const navigate = useNavigate();
-   const { login } = useAuth()
   const handleSubmit = async (e) => {
     e.preventDefault();
     try{
