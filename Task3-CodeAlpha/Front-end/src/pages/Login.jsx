@@ -39,7 +39,7 @@ export const Login = () => {
       style={{ minHeight: '100vh' }}
     >
       <div
-        className="card my-5 mx-4 p-5 "
+        className="card auth-card "
         style={{ width: '100%', maxWidth: '450px' }}
       >
         <h1 className="text-center mb-4">Login</h1>

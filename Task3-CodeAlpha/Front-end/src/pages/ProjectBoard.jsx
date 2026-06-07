@@ -132,10 +132,10 @@ export const ProjectBoard = () => {
       )}
 
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className="row">
+        <div className="row mt-4">
           {['todo', 'inProgress', 'done'].map((status) => (
-            <div key={status} className="col-md-4">
-              <h5 className="text-capitalize">{status}</h5>
+            <div key={status} className={`col-md-4 kanban-col col-${status}`}>
+              <h5 className="text-capitalize pb-4">{status}</h5>
               <Droppable droppableId={status}>
                 {(provided) => (
                   <div

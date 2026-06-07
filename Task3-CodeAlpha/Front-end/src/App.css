@@ -166,3 +166,64 @@ textarea {
   color: #e6edf3 !important;
   border: 1px solid #044379 !important;
 }
+
+/* Kanban Columns */
+.kanban-col {
+  background-color: #011a27;
+  border-radius: 12px;
+  padding: 18px;
+  min-height: 400px;
+  border: 1px solid #044379;
+  margin: 0 4px;
+}
+
+.col-todo {
+  border-top: 3px solid #f0ad4e;
+}
+.col-inProgress {
+  border-top: 3px solid #5bc0de;
+}
+.col-done {
+  border-top: 3px solid #5cb85c;
+}
+.col-todo,
+.col-inProgress,
+.col-done {
+  width: 30%;
+  margin-left: 40px;
+  height: auto;
+}
+
+/* Task Card hover */
+.task-card {
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+.task-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(3, 197, 227, 0.2);
+}
+
+/* Project Card hover */
+.project-card {
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+.project-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(3, 197, 227, 0.25);
+}
+
+/* Buttons */
+.btn {
+  border-radius: 8px !important;
+}
+
+/* Login/Register card */
+.auth-card {
+  border-radius: 16px !important;
+  padding: 40px !important;
+  box-shadow: 0 0 40px rgba(3, 197, 227, 0.15) !important;
+}

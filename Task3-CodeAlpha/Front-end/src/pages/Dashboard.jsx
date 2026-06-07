@@ -234,7 +234,7 @@ export const Dashboard = () => {
       <div className="row mt-4">
         {project.map((p) => (
           <div key={p._id} className="col-md-4 mb-3">
-            <div className="card p-3">
+            <div className="card p-3 project-card">
               <h5
                 onClick={() => navigate(`/project/${p._id}`)}
                 style={{ cursor: 'pointer' }}
