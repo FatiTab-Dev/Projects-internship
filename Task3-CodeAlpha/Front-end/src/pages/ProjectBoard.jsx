@@ -198,10 +198,21 @@ export const ProjectBoard = () => {
                               ) : (
                                 <>
                                   <h6
+                                    className="m-3"
                                     onClick={() => navigate(`/task/${t._id}`)}
                                     style={{ cursor: 'pointer' }}
                                   >
                                     {t.title}
+                                    <small className="timestamp ms-2">
+                                      {t.createdAt
+                                        ? new Date(
+                                            t.createdAt
+                                          ).toLocaleDateString({
+                                            month: 'short',
+                                            day: 'numeric',
+                                          })
+                                        : 'Just now'}
+                                    </small>
                                   </h6>
                                   <p className="small">{t.description}</p>
                                   <select

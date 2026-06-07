@@ -227,3 +227,17 @@ textarea {
   padding: 40px !important;
   box-shadow: 0 0 40px rgba(3, 197, 227, 0.15) !important;
 }
+.task-card,
+.project-card {
+  position: relative;
+}
+
+.timestamp {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 0.8rem;
+  color: rgba(222, 251, 255, 0.356);
+  margin-left: auto;
+  font-style: italic;
+}

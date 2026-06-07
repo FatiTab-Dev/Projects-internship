@@ -48,9 +48,7 @@ export const updateProject = async (req, res) => {
     const { title, description } = req.body;
     const project = await Project.findById(req.params.id);
     if (!project) return res.status(404).json({ message: 'Post not found' });
-    if (project.owner.toString() !== req.user._id.toString()) {
-      return res.status(401).json({ message: 'Not authorized' });
-    }
+
     project.title = title || project.title;
     project.description = description || project.description;
     const updatedproject = await project.save();

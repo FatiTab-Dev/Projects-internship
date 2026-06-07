@@ -123,9 +123,14 @@ export const TaskDetail = () => {
               </>
             ) : (
               <>
-                <p>{c.text}</p>
-                <small className="text-muted">
-                  {new Date(c.createdAt).toLocaleDateString()}
+                <p className="m-3">{c.text}</p>
+                <small className="timestamp ms-2">
+                  {c.createdAt
+                    ? new Date(c.createdAt).toLocaleDateString({
+                        month: 'short',
+                        day: 'numeric',
+                      })
+                    : 'Just now'}
                 </small>
                 <div className="d-flex gap-2 mt-2">
                   <button

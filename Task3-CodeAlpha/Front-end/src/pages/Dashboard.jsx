@@ -158,6 +158,14 @@ export const Dashboard = () => {
                       className="p-2 border-bottom small d-flex justify-content-between align-items-center"
                     >
                       <span>{n.message || n.text}</span>
+                      <small className="timestamp ms-2">
+                        {n.createdAt
+                          ? new Date(n.createdAt).toLocaleDateString({
+                              month: 'short',
+                              day: 'numeric',
+                            })
+                          : 'Just now'}
+                      </small>
                       {!n.read && (
                         <button
                           className="btn btn-sm btn-outline-info"
@@ -236,10 +244,19 @@ export const Dashboard = () => {
           <div key={p._id} className="col-md-4 mb-3">
             <div className="card p-3 project-card">
               <h5
+                className="m-3"
                 onClick={() => navigate(`/project/${p._id}`)}
                 style={{ cursor: 'pointer' }}
               >
                 {p.title}
+                <small className="timestamp ms-2">
+                  {p.createdAt
+                    ? new Date(p.createdAt).toLocaleDateString({
+                        month: 'short',
+                        day: 'numeric',
+                      })
+                    : 'Just now'}
+                </small>
               </h5>
               <p>{p.description}</p>
               <div className="d-flex gap-2 mt-2">
