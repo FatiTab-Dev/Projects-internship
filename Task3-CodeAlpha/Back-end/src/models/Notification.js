@@ -1,11 +1,17 @@
 import mongoose from 'mongoose';
 
-const NotificationSchema = new mongoose.Schema({
- text: {type:String, required: true},
- userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required:true },
- message: { type:String },
- read: { type: Boolean, default:false},
-}, {timestamps:true}
+const NotificationSchema = new mongoose.Schema(
+  {
+    text: { type: String, required: true },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    message: { type: String },
+    read: { type: Boolean, default: false },
+  },
+  { timestamps: true }
 );
 
 const Notification = mongoose.model('Notification', NotificationSchema);

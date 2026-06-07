@@ -43,7 +43,7 @@ export const Profile = () => {
 
     try {
       const res = await api.put('/users/profile', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
+        headers: { 'Content-Type': 'multipart/form-data' },
       });
 
       // update localStorage
@@ -53,8 +53,8 @@ export const Profile = () => {
           ...currentUser.user,
           name: res.data.name,
           bio: res.data.bio,
-          profilePicture: res.data.profilePicture
-        }
+          profilePicture: res.data.profilePicture,
+        },
       };
       localStorage.setItem('user', JSON.stringify(updatedUser));
 
@@ -95,11 +95,9 @@ export const Profile = () => {
 
   return (
     <div className=" profile container mt-5" style={{ maxWidth: 800 }}>
-
       {/* Profile Card */}
       <div className="card border-0 shadow-sm mb-4">
         <div className="card-body">
-
           {!editMode ? (
             // ── View Mode ──
             <div className="d-flex align-items-center gap-4">
@@ -108,23 +106,38 @@ export const Profile = () => {
                 className="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white flex-shrink-0 overflow-hidden"
                 style={{ width: 80, height: 80, fontSize: 32 }}
               >
-                {profilePic
-                  ? <img src={profilePic} alt="profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  : currentUser?.user?.name?.charAt(0).toUpperCase()
-                }
+                {profilePic ? (
+                  <img
+                    src={profilePic}
+                    alt="profile"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                    }}
+                  />
+                ) : (
+                  currentUser?.user?.name?.charAt(0).toUpperCase()
+                )}
               </div>
               {/* Info */}
               <div className="flex-grow-1">
                 <h4 className="mb-1">{currentUser?.user?.name}</h4>
-                <p className="text-muted mb-2">{currentUser?.user?.bio || 'No bio yet'}</p>
-                <span className="badge bg-primary">{userPosts.length} Posts</span>
+                <p className="text-muted mb-2">
+                  {currentUser?.user?.bio || 'No bio yet'}
+                </p>
+                <span className="badge bg-primary">
+                  {userPosts.length} Posts
+                </span>
               </div>
               {/* Edit Button */}
-              <button className="btn btn-outline-primary btn-sm" onClick={() => setEditMode(true)}>
+              <button
+                className="btn btn-outline-primary btn-sm"
+                onClick={() => setEditMode(true)}
+              >
                 <i className="fas fa-edit me-1"></i> Edit Profile
               </button>
             </div>
-
           ) : (
             // ── Edit Mode ──
             <form onSubmit={handleUpdateProfile}>
@@ -136,12 +149,29 @@ export const Profile = () => {
                   className="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white mx-auto mb-2 overflow-hidden"
                   style={{ width: 80, height: 80, fontSize: 32 }}
                 >
-                  {profileImage
-                    ? <img src={URL.createObjectURL(profileImage)} alt="preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    : profilePic
-                    ? <img src={profilePic} alt="profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    : currentUser?.user?.name?.charAt(0).toUpperCase()
-                  }
+                  {profileImage ? (
+                    <img
+                      src={URL.createObjectURL(profileImage)}
+                      alt="preview"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                      }}
+                    />
+                  ) : profilePic ? (
+                    <img
+                      src={profilePic}
+                      alt="profile"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                      }}
+                    />
+                  ) : (
+                    currentUser?.user?.name?.charAt(0).toUpperCase()
+                  )}
                 </div>
                 <input
                   type="file"
@@ -176,17 +206,22 @@ export const Profile = () => {
                 <button type="submit" className="btn btn-primary">
                   <i className="fas fa-save me-1"></i> Save
                 </button>
-                <button type="button" className="btn btn-outline-secondary" onClick={() => setEditMode(false)}>
+                <button
+                  type="button"
+                  className="btn btn-outline-secondary"
+                  onClick={() => setEditMode(false)}
+                >
                   Cancel
                 </button>
               </div>
 
               {message.text && (
-                <div className={`alert alert-${message.type} mt-3 small`}>{message.text}</div>
+                <div className={`alert alert-${message.type} mt-3 small`}>
+                  {message.text}
+                </div>
               )}
             </form>
           )}
-
         </div>
       </div>
 
@@ -203,16 +238,15 @@ export const Profile = () => {
       </ul>
 
       {/* Posts Tab */}
-      {activeTab === 'posts' && (
-        loadingPosts ? (
+      {activeTab === 'posts' &&
+        (loadingPosts ? (
           <p className="mt-5 text-center">Loading posts...</p>
         ) : userPosts.length === 0 ? (
           <p className="text-center text-muted">No posts yet.</p>
         ) : (
-          userPosts.map(post => (
+          userPosts.map((post) => (
             <div key={post._id} className="card mb-3 border-0 shadow-sm">
               <div className="card-body">
-
                 {editingPost === post._id ? (
                   // ── Edit Post Mode ──
                   <div>
@@ -223,15 +257,20 @@ export const Profile = () => {
                       onChange={(e) => setEditPostText(e.target.value)}
                     />
                     <div className="d-flex gap-2">
-                      <button className="btn btn-primary btn-sm" onClick={() => handleEditPost(post._id)}>
+                      <button
+                        className="btn btn-primary btn-sm"
+                        onClick={() => handleEditPost(post._id)}
+                      >
                         <i className="fas fa-save me-1"></i> Save
                       </button>
-                      <button className="btn btn-outline-secondary btn-sm" onClick={() => setEditingPost(null)}>
+                      <button
+                        className="btn btn-outline-secondary btn-sm"
+                        onClick={() => setEditingPost(null)}
+                      >
                         Cancel
                       </button>
                     </div>
                   </div>
-
                 ) : (
                   // ── View Post Mode ──
                   <>
@@ -266,18 +305,21 @@ export const Profile = () => {
                     )}
 
                     <div className="d-flex gap-3 mt-2 text-muted small">
-                      <span><i className="fas fa-thumbs-up me-1"></i>{post.likes?.length || 0} Likes</span>
-                      <span><i className="fas fa-comment me-1"></i>{post.comments?.length || 0} Comments</span>
+                      <span>
+                        <i className="fas fa-thumbs-up me-1"></i>
+                        {post.likes?.length || 0} Likes
+                      </span>
+                      <span>
+                        <i className="fas fa-comment me-1"></i>
+                        {post.comments?.length || 0} Comments
+                      </span>
                     </div>
                   </>
                 )}
-
               </div>
             </div>
           ))
-        )
-      )}
-
+        ))}
     </div>
   );
 };

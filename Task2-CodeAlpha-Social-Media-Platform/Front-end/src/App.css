@@ -1,4 +1,4 @@
- * {
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -18,13 +18,22 @@ body {
   font-family: 'Centra', sans-serif !important;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin: 0;
   padding: 0;
   line-height: normal;
 }
 
-p, a, li, button, ul {
+p,
+a,
+li,
+button,
+ul {
   margin: 0;
   padding: 0;
   line-height: normal;
@@ -45,30 +54,32 @@ button {
   background-color: transparent;
 }
 
-input:focus, textarea:focus, select:focus {
+input:focus,
+textarea:focus,
+select:focus {
   outline: none;
 }
 
-@media (min-width:1700px) {
-	main .container {
-		max-width: 100%;
-		padding: 0 150px;
-	}
+@media (min-width: 1700px) {
+  main .container {
+    max-width: 100%;
+    padding: 0 150px;
+  }
 }
 
 p.success {
-	color: green;
+  color: green;
 }
 
 p.danger {
-	color: red;
+  color: red;
 }
 p.warning {
   color: orange;
 }
 /************ Navbar Css ************/
 nav.navbar {
- padding: 16px 0;
+  padding: 16px 0;
   position: fixed;
   width: 100%;
   top: 0;
@@ -108,21 +119,21 @@ nav.navbar .navbar-nav .nav-link {
 nav.navbar .navbar-nav a.nav-link:hover,
 nav.navbar .navbar-nav a.nav-link.active {
   color: #e6ecff !important;
-    opacity: 1;
+  opacity: 1;
 }
-nav.navbar .navbar-nav a.nav-link.custom-login-btn{
+nav.navbar .navbar-nav a.nav-link.custom-login-btn {
   border: 2px solid #2e59d9;
   color: #f5f8ff !important;
   border-radius: 20px !important;
   padding: 0 20px !important;
-  height: 38px !important;    
+  height: 38px !important;
   display: inline-flex !important;
-  align-items: center;       
+  align-items: center;
   justify-content: center;
   font-size: 14px;
   font-weight: 700;
   margin-left: 15px;
-  align-self: center;     
+  align-self: center;
   background-color: transparent;
   transition: all 0.3s ease;
 }
@@ -133,36 +144,38 @@ nav.navbar .navbar-nav a.nav-link.custom-login-btn:hover {
   border-color: #2e59d9 !important;
   box-shadow: 0 4px 12px rgba(255, 64, 0, 0.2);
 }
-.home,.profile,.card{
+.home,
+.profile,
+.card {
   margin-top: 50px;
   padding-top: 50px;
 }
-
 
 /************ Cards Css ************/
 .card {
   border: 1px solid #ddd;
   border-radius: 8px;
   height: 50vh;
-  box-shadow: 0 2px 4px rgba(255, 1, 1, 0.1);}
-  .card:hover {
-    box-shadow: 0 4px 12px rgba(255, 1, 1, 0.2);
-    transform: translateY(-5px);
-    transition: all 0.3s ease;
-  }
+  box-shadow: 0 2px 4px rgba(255, 1, 1, 0.1);
+}
+.card:hover {
+  box-shadow: 0 4px 12px rgba(255, 1, 1, 0.2);
+  transform: translateY(-5px);
+  transition: all 0.3s ease;
+}
 
 .login .btn {
   border: 2px solid #4e75e8;
   border-radius: 20px !important;
-  padding:  20px !important;
-  height: 38px !important;    
+  padding: 20px !important;
+  height: 38px !important;
   display: inline-flex !important;
-  align-items: center;       
+  align-items: center;
   justify-content: center;
   font-size: 14px;
   font-weight: 700;
   margin-top: 10px;
-  align-self: center;     
+  align-self: center;
   background-color: transparent;
   transition: all 0.3s ease;
 }
@@ -173,7 +186,6 @@ nav.navbar .navbar-nav a.nav-link.custom-login-btn:hover {
   box-shadow: 0 4px 12px rgba(255, 64, 0, 0.2);
 }
 footer {
-
   color: #fff !important;
   padding: 40px 0;
 }
@@ -190,7 +202,8 @@ footer a:hover {
 footer p {
   opacity: 0.8 !important;
 }
-footer .small i, .hover-social i {
+footer .small i,
+.hover-social i {
   color: #2e59d9 !important;
   transition: color 0.3s ease;
 }

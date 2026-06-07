@@ -21,7 +21,6 @@ export const Cardsshop = ({ onAddToCart }) => {
           setBikes([]);
         }
         setLoading(false);
-        
       })
       .catch((err) => {
         console.error('Error fetching products:', err);
@@ -46,19 +45,18 @@ export const Cardsshop = ({ onAddToCart }) => {
       </h2>
 
       <p className="lead text-muted mb-5">
-        Discover our premium selection of mountain bikes, designed for riders who demand performance, durability, and style on every trail.
+        Discover our premium selection of mountain bikes, designed for riders
+        who demand performance, durability, and style on every trail.
       </p>
 
       <div className="row g-4">
         {bikes.length > 0 ? (
-          
           bikes.map((bike) => (
             <div
               key={bike._id || bike.id}
               className="col-lg-4 col-md-6 col-sm-12"
             >
               <div className="card h-100 shadow-sm border-0 custom-bike-card">
-
                 <img
                   src={bike.img || 'https://via.placeholder.com/300'}
                   alt={bike.title}
@@ -69,7 +67,6 @@ export const Cardsshop = ({ onAddToCart }) => {
                     objectFit: 'cover',
                   }}
                 />
-                
 
                 <div className="card-body d-flex flex-column justify-content-between">
                   <div>
@@ -77,15 +74,13 @@ export const Cardsshop = ({ onAddToCart }) => {
                       {bike.title}
                     </h5>
 
-                    <p className="card-text text-muted fs-6">
-                      {bike.desc}
-                    </p>
+                    <p className="card-text text-muted fs-6">{bike.desc}</p>
                   </div>
 
                   <div className="mt-3">
                     <span className="fw-bold price d-block fs-4 mb-2">
-                   {(bike.price)} MAD
-                   </span>
+                      {bike.price} MAD
+                    </span>
 
                     <div className="d-flex justify-content-center gap-2">
                       <button
@@ -112,9 +107,7 @@ export const Cardsshop = ({ onAddToCart }) => {
           ))
         ) : (
           <div className="col-12">
-            <h4 className="text-muted">
-              No bikes found in the database.
-            </h4>
+            <h4 className="text-muted">No bikes found in the database.</h4>
           </div>
         )}
       </div>

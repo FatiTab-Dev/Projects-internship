@@ -1,7 +1,7 @@
 import User from '../models/User.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import Notification from '../models/Notification.js'; 
+import Notification from '../models/Notification.js';
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
 };
@@ -19,7 +19,7 @@ export const register = async (req, res) => {
     res.status(201).json({
       message: 'User registered successfully',
       token: generateToken(user._id),
-      user: { id: user._id, name: user.name, email: user.email }
+      user: { id: user._id, name: user.name, email: user.email },
     });
   } catch (error) {
     res.status(500).json({ message: 'Server error during signup' });
@@ -33,7 +33,7 @@ export const login = async (req, res) => {
     if (user && (await bcrypt.compare(password, user.password))) {
       res.status(200).json({
         token: generateToken(user._id),
-        user: { id: user._id, name: user.name, email: user.email }
+        user: { id: user._id, name: user.name, email: user.email },
       });
     } else {
       res.status(401).json({ message: 'Invalid email or password' });
@@ -87,31 +87,32 @@ export const toggleFollow = async (req, res) => {
 
     const userToFollow = await User.findById(req.params.userId);
     const currentUser = await User.findById(req.user._id);
-    if (!userToFollow) return res.status(404).json({ message: 'User not found' });
+    if (!userToFollow)
+      return res.status(404).json({ message: 'User not found' });
 
     const isFollowing = currentUser.following.includes(req.params.userId);
 
     if (isFollowing) {
       currentUser.following = currentUser.following.filter(
-        id => id.toString() !== req.params.userId
+        (id) => id.toString() !== req.params.userId
       );
       userToFollow.followers = userToFollow.followers.filter(
-        id => id.toString() !== req.user._id.toString()
+        (id) => id.toString() !== req.user._id.toString()
       );
-     
+
       await Notification.findOneAndDelete({
         recipient: userToFollow._id,
         sender: req.user._id,
-        type: 'follow'
+        type: 'follow',
       });
     } else {
       currentUser.following.push(req.params.userId);
       userToFollow.followers.push(req.user._id);
-     
+
       await Notification.create({
         recipient: userToFollow._id,
         sender: req.user._id,
-        type: 'follow'
+        type: 'follow',
       });
     }
 
@@ -120,7 +121,7 @@ export const toggleFollow = async (req, res) => {
 
     res.status(200).json({
       following: currentUser.following,
-      isFollowing: !isFollowing
+      isFollowing: !isFollowing,
     });
   } catch (error) {
     res.status(500).json({ message: 'Error toggling follow' });
@@ -129,8 +130,10 @@ export const toggleFollow = async (req, res) => {
 
 export const getFollowers = async (req, res) => {
   try {
-    const user = await User.findById(req.params.userId)
-      .populate('followers', 'name profilePicture bio');
+    const user = await User.findById(req.params.userId).populate(
+      'followers',
+      'name profilePicture bio'
+    );
     if (!user) return res.status(404).json({ message: 'User not found' });
     res.status(200).json(user.followers);
   } catch (error) {
@@ -140,8 +143,10 @@ export const getFollowers = async (req, res) => {
 
 export const getFollowing = async (req, res) => {
   try {
-    const user = await User.findById(req.params.userId)
-      .populate('following', 'name profilePicture bio');
+    const user = await User.findById(req.params.userId).populate(
+      'following',
+      'name profilePicture bio'
+    );
     if (!user) return res.status(404).json({ message: 'User not found' });
     res.status(200).json(user.following);
   } catch (error) {

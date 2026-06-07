@@ -1,5 +1,4 @@
-
- * {
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -19,13 +18,22 @@ body {
   font-family: 'Centra', sans-serif !important;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin: 0;
   padding: 0;
   line-height: normal;
 }
 
-p, a, li, button, ul {
+p,
+a,
+li,
+button,
+ul {
   margin: 0;
   padding: 0;
   line-height: normal;
@@ -46,30 +54,32 @@ button {
   background-color: transparent;
 }
 
-input:focus, textarea:focus, select:focus {
+input:focus,
+textarea:focus,
+select:focus {
   outline: none;
 }
 
-@media (min-width:1700px) {
-	main .container {
-		max-width: 100%;
-		padding: 0 150px;
-	}
+@media (min-width: 1700px) {
+  main .container {
+    max-width: 100%;
+    padding: 0 150px;
+  }
 }
 
 p.success {
-	color: green;
+  color: green;
 }
 
 p.danger {
-	color: red;
+  color: red;
 }
 p.warning {
   color: orange;
 }
 /************ Navbar Css ************/
 nav.navbar {
- padding: 16px 0;
+  padding: 16px 0;
   position: fixed;
   width: 100%;
   top: 0;
@@ -109,21 +119,21 @@ nav.navbar .navbar-nav .nav-link {
 nav.navbar .navbar-nav a.nav-link:hover,
 nav.navbar .navbar-nav a.nav-link.active {
   color: #ff7300 !important;
-    opacity: 1;
+  opacity: 1;
 }
-nav.navbar .navbar-nav a.nav-link.custom-login-btn{
+nav.navbar .navbar-nav a.nav-link.custom-login-btn {
   border: 2px solid #ff4000;
   color: #ff4000 !important;
   border-radius: 20px !important;
   padding: 0 20px !important;
-  height: 38px !important;    
+  height: 38px !important;
   display: inline-flex !important;
-  align-items: center;       
+  align-items: center;
   justify-content: center;
   font-size: 14px;
   font-weight: 700;
   margin-left: 15px;
-  align-self: center;     
+  align-self: center;
   background-color: transparent;
   transition: all 0.3s ease;
 }
@@ -149,9 +159,9 @@ nav.navbar .navbar-nav a.nav-link.custom-login-btn:hover {
 }
 
 .fa-cart-plus:hover {
-border-color: #ff5100; 
-background-color: rgba(255, 115, 0, 0.1);
-transform: scale(1.05);
+  border-color: #ff5100;
+  background-color: rgba(255, 115, 0, 0.1);
+  transform: scale(1.05);
 }
 /************ Carsoule Css ************/
 .hero-carousel-wrapper {
@@ -165,50 +175,53 @@ transform: scale(1.05);
   width: 100%;
   height: 85vh !important;
   object-fit: cover !important;
- object-position: center !important;
+  object-position: center !important;
 }
-.carousel-caption span, span.caption {
- color:#f94c12f3 !important;
+.carousel-caption span,
+span.caption {
+  color: #f94c12f3 !important;
 }
 .carousel-caption .btn {
- border: 2px solid #ff4000;
- 
+  border: 2px solid #ff4000;
+
   background-color: #ea5929 !important;
 }
 .carousel-caption .btn:hover {
-border-color: #fc641eef; 
-background-color: rgba(255, 115, 0, 0.1);
-transform: scale(1.05);
+  border-color: #fc641eef;
+  background-color: rgba(255, 115, 0, 0.1);
+  transform: scale(1.05);
 }
-.carousel-control-next-icon , .carousel-control-prev-icon{
+.carousel-control-next-icon,
+.carousel-control-prev-icon {
   filter: invert(1) brightness(2);
 }
 /************ Cards Css ************/
 .card {
   border: 1px solid #ddd;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(255, 1, 1, 0.1);}
-  .card:hover {
-    box-shadow: 0 4px 12px rgba(255, 1, 1, 0.2);
-    transform: translateY(-5px);
-    transition: all 0.3s ease;
-  }
-  .card span{
-    color :#1f0000 !important;
-  }
+  box-shadow: 0 2px 4px rgba(255, 1, 1, 0.1);
+}
+.card:hover {
+  box-shadow: 0 4px 12px rgba(255, 1, 1, 0.2);
+  transform: translateY(-5px);
+  transition: all 0.3s ease;
+}
+.card span {
+  color: #1f0000 !important;
+}
 .card .btn {
   border: 2px solid #ff4000;
   color: #ff4000 !important;
   border-radius: 20px !important;
   padding: 0 20px !important;
-  height: 38px !important;    
+  height: 38px !important;
   display: inline-flex !important;
-  align-items: center;       
+  align-items: center;
   justify-content: center;
   font-size: 14px;
   font-weight: 700;
   margin-top: 10px;
-  align-self: center;     
+  align-self: center;
   background-color: transparent;
   transition: all 0.3s ease;
 }
@@ -219,7 +232,6 @@ transform: scale(1.05);
   box-shadow: 0 4px 12px rgba(255, 64, 0, 0.2);
 }
 footer {
-
   color: #fff !important;
   padding: 40px 0;
 }
@@ -236,7 +248,8 @@ footer a:hover {
 footer p {
   opacity: 0.8 !important;
 }
-footer .small i, .hover-social i {
+footer .small i,
+.hover-social i {
   color: #ff4000 !important;
   transition: color 0.3s ease;
 }

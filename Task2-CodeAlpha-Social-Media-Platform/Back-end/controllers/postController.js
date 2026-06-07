@@ -1,5 +1,5 @@
 import Post from '../models/Post.js';
-import Notification from '../models/Notification.js'; 
+import Notification from '../models/Notification.js';
 
 // create post
 export const createPost = async (req, res) => {
@@ -12,10 +12,12 @@ export const createPost = async (req, res) => {
     const newPost = await Post.create({
       user: req.user._id,
       text,
-      image: imagePath
+      image: imagePath,
     });
-    const populatedPost = await Post.findById(newPost._id)
-      .populate('user', 'name profilePicture');
+    const populatedPost = await Post.findById(newPost._id).populate(
+      'user',
+      'name profilePicture'
+    );
     res.status(201).json(populatedPost);
   } catch (error) {
     res.status(500).json({ message: 'Error creating post' });
@@ -70,7 +72,9 @@ export const updatePost = async (req, res) => {
     const post = await Post.findById(req.params.id);
     if (!post) return res.status(404).json({ message: 'Post not found' });
     if (post.user.toString() !== req.user._id.toString()) {
-      return res.status(401).json({ message: 'User not authorized to edit this post' });
+      return res
+        .status(401)
+        .json({ message: 'User not authorized to edit this post' });
     }
     post.text = text || post.text;
     const updatedPost = await post.save();
@@ -89,23 +93,25 @@ export const toggleLike = async (req, res) => {
     const isLiked = post.likes.includes(req.user._id);
 
     if (isLiked) {
-      post.likes = post.likes.filter(id => id.toString() !== req.user._id.toString());
-   
+      post.likes = post.likes.filter(
+        (id) => id.toString() !== req.user._id.toString()
+      );
+
       await Notification.findOneAndDelete({
         recipient: post.user,
         sender: req.user._id,
         type: 'like',
-        post: post._id
+        post: post._id,
       });
     } else {
       post.likes.push(req.user._id);
-     
+
       if (post.user.toString() !== req.user._id.toString()) {
         await Notification.create({
           recipient: post.user,
           sender: req.user._id,
           type: 'like',
-          post: post._id
+          post: post._id,
         });
       }
     }
@@ -127,13 +133,12 @@ export const addComment = async (req, res) => {
     post.comments.push({ user: req.user._id, text });
     await post.save();
 
-   
     if (post.user.toString() !== req.user._id.toString()) {
       await Notification.create({
         recipient: post.user,
         sender: req.user._id,
         type: 'comment',
-        post: post._id
+        post: post._id,
       });
     }
 
@@ -152,7 +157,7 @@ export const deleteComment = async (req, res) => {
     const post = await Post.findById(req.params.id);
     if (!post) return res.status(404).json({ message: 'Post not found' });
     post.comments = post.comments.filter(
-      comment => comment._id.toString() !== req.params.commentId
+      (comment) => comment._id.toString() !== req.params.commentId
     );
     await post.save();
     res.status(200).json({ message: 'Comment removed' });
@@ -167,7 +172,9 @@ export const updateComment = async (req, res) => {
     const { text } = req.body;
     const post = await Post.findById(req.params.id);
     if (!post) return res.status(404).json({ message: 'Post not found' });
-    const comment = post.comments.find(c => c._id.toString() === req.params.commentId);
+    const comment = post.comments.find(
+      (c) => c._id.toString() === req.params.commentId
+    );
     if (!comment) return res.status(404).json({ message: 'Comment not found' });
     if (comment.user.toString() !== req.user._id.toString()) {
       return res.status(401).json({ message: 'User not authorized' });

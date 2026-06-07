@@ -8,7 +8,7 @@ import productRoutes from './routes/productRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 
-// Environment variables 
+// Environment variables
 dotenv.config();
 
 const app = express();
@@ -22,22 +22,23 @@ app.use(express.json());
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 app.use((req, res, next) => {
-    console.log(`[REQUEST] ${req.method} ${req.url}`);
-    next();
+  console.log(`[REQUEST] ${req.method} ${req.url}`);
+  next();
 });
 app.use('/api/auth', authRoutes);
 app.use('/img', express.static('public/img'));
 
 app.get('/', (req, res) => {
-    res.send('API is running...');
+  res.send('API is running...');
 });
 
 // MongoDB
-mongoose.connect(process.env.MONGO_URI)
-.then(() => {
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
     console.log('Connected to MongoDB');
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-})
-.catch((err) => {
+  })
+  .catch((err) => {
     console.error('Error connecting to MongoDB:', err);
-});
+  });

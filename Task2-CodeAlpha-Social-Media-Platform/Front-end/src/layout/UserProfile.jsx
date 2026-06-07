@@ -19,19 +19,21 @@ export const UserProfile = () => {
 
   const fetchData = async () => {
     try {
-      const [userRes, postsRes, followersRes, followingRes] = await Promise.all([
-        api.get(`/users/${userId}`),
-        api.get(`/posts/user/${userId}`),
-        api.get(`/users/${userId}/followers`),
-        api.get(`/users/${userId}/following`)
-      ]);
+      const [userRes, postsRes, followersRes, followingRes] = await Promise.all(
+        [
+          api.get(`/users/${userId}`),
+          api.get(`/posts/user/${userId}`),
+          api.get(`/users/${userId}/followers`),
+          api.get(`/users/${userId}/following`),
+        ]
+      );
       setProfileUser(userRes.data);
       setUserPosts(postsRes.data);
       setFollowers(followersRes.data);
       setFollowing(followingRes.data);
 
       const alreadyFollowing = followersRes.data.some(
-        f => f._id === currentUser?.user?.id
+        (f) => f._id === currentUser?.user?.id
       );
       setIsFollowing(alreadyFollowing);
       setLoading(false);
@@ -59,7 +61,7 @@ export const UserProfile = () => {
     if (!commentText[postId]?.trim()) return;
     try {
       await api.post(`/posts/${postId}/comment`, { text: commentText[postId] });
-      setCommentText(prev => ({ ...prev, [postId]: '' }));
+      setCommentText((prev) => ({ ...prev, [postId]: '' }));
       fetchData();
     } catch (err) {
       console.error('Comment error:', err);
@@ -67,7 +69,7 @@ export const UserProfile = () => {
   };
 
   const toggleComments = (postId) => {
-    setShowComments(prev => ({ ...prev, [postId]: !prev[postId] }));
+    setShowComments((prev) => ({ ...prev, [postId]: !prev[postId] }));
   };
 
   if (loading) return <p className="text-center mt-5">Loading...</p>;
@@ -79,39 +81,56 @@ export const UserProfile = () => {
 
   return (
     <div className="container mt-5" style={{ maxWidth: 800 }}>
-
       {/* Profile Card */}
       <div className="card border-0 shadow-sm mb-4">
         <div className="card-body">
           <div className="d-flex align-items-center gap-4">
-
             {/* Avatar */}
             <div
               className="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white flex-shrink-0 overflow-hidden"
               style={{ width: 90, height: 90, fontSize: 36 }}
             >
-              {profilePic
-                ? <img src={profilePic} alt="profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                : profileUser.name?.charAt(0).toUpperCase()
-              }
+              {profilePic ? (
+                <img
+                  src={profilePic}
+                  alt="profile"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+              ) : (
+                profileUser.name?.charAt(0).toUpperCase()
+              )}
             </div>
 
             {/* Info */}
             <div className="flex-grow-1">
               <h4 className="mb-1">{profileUser.name}</h4>
-              <p className="text-muted mb-2">{profileUser.bio || 'No bio yet'}</p>
+              <p className="text-muted mb-2">
+                {profileUser.bio || 'No bio yet'}
+              </p>
 
               {/* Stats */}
               <div className="d-flex gap-4">
-                <div className="text-center" style={{ cursor: 'pointer' }} onClick={() => setActiveTab('posts')}>
+                <div
+                  className="text-center"
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => setActiveTab('posts')}
+                >
                   <div className="fw-bold">{userPosts.length}</div>
                   <div className="text-muted small">Posts</div>
                 </div>
-                <div className="text-center" style={{ cursor: 'pointer' }} onClick={() => setActiveTab('followers')}>
+                <div
+                  className="text-center"
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => setActiveTab('followers')}
+                >
                   <div className="fw-bold">{followers.length}</div>
                   <div className="text-muted small">Followers</div>
                 </div>
-                <div className="text-center" style={{ cursor: 'pointer' }} onClick={() => setActiveTab('following')}>
+                <div
+                  className="text-center"
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => setActiveTab('following')}
+                >
                   <div className="fw-bold">{following.length}</div>
                   <div className="text-muted small">Following</div>
                 </div>
@@ -128,10 +147,15 @@ export const UserProfile = () => {
                 onClick={handleFollow}
                 className={`btn btn-sm ${isFollowing ? 'btn-outline-secondary' : 'btn-primary'}`}
               >
-                {isFollowing
-                  ? <><i className="fas fa-user-minus me-1"></i> Unfollow</>
-                  : <><i className="fas fa-user-plus me-1"></i> Follow</>
-                }
+                {isFollowing ? (
+                  <>
+                    <i className="fas fa-user-minus me-1"></i> Unfollow
+                  </>
+                ) : (
+                  <>
+                    <i className="fas fa-user-plus me-1"></i> Follow
+                  </>
+                )}
               </button>
             )}
           </div>
@@ -141,43 +165,61 @@ export const UserProfile = () => {
       {/* Tabs */}
       <ul className="nav nav-tabs mb-4">
         <li className="nav-item">
-          <button className={`nav-link ${activeTab === 'posts' ? 'active' : ''}`} onClick={() => setActiveTab('posts')}>
+          <button
+            className={`nav-link ${activeTab === 'posts' ? 'active' : ''}`}
+            onClick={() => setActiveTab('posts')}
+          >
             <i className="fas fa-th me-1"></i> Posts
           </button>
         </li>
         <li className="nav-item">
-          <button className={`nav-link ${activeTab === 'followers' ? 'active' : ''}`} onClick={() => setActiveTab('followers')}>
+          <button
+            className={`nav-link ${activeTab === 'followers' ? 'active' : ''}`}
+            onClick={() => setActiveTab('followers')}
+          >
             <i className="fas fa-users me-1"></i> Followers ({followers.length})
           </button>
         </li>
         <li className="nav-item">
-          <button className={`nav-link ${activeTab === 'following' ? 'active' : ''}`} onClick={() => setActiveTab('following')}>
-            <i className="fas fa-user-check me-1"></i> Following ({following.length})
+          <button
+            className={`nav-link ${activeTab === 'following' ? 'active' : ''}`}
+            onClick={() => setActiveTab('following')}
+          >
+            <i className="fas fa-user-check me-1"></i> Following (
+            {following.length})
           </button>
         </li>
       </ul>
 
       {/* Posts Tab */}
-      {activeTab === 'posts' && (
-        userPosts.length === 0 ? (
+      {activeTab === 'posts' &&
+        (userPosts.length === 0 ? (
           <p className="text-center text-muted">No posts yet.</p>
         ) : (
-          userPosts.map(post => (
+          userPosts.map((post) => (
             <div key={post._id} className="card mb-3 border-0 shadow-sm">
               <div className="card-body">
                 <p className="card-text">{post.text}</p>
                 {post.image && (
-                  <img src={`http://localhost:5000${post.image}`} className="img-fluid rounded mb-2" alt="post" />
+                  <img
+                    src={`http://localhost:5000${post.image}`}
+                    className="img-fluid rounded mb-2"
+                    alt="post"
+                  />
                 )}
 
                 {/* Stats */}
                 <div className="d-flex gap-3 text-muted small mb-2">
-                  <span><i className="fas fa-thumbs-up me-1"></i>{post.likes?.length || 0} Likes</span>
+                  <span>
+                    <i className="fas fa-thumbs-up me-1"></i>
+                    {post.likes?.length || 0} Likes
+                  </span>
                   <span
                     style={{ cursor: 'pointer' }}
                     onClick={() => toggleComments(post._id)}
                   >
-                    <i className="fas fa-comment me-1"></i>{post.comments?.length || 0} Comments
+                    <i className="fas fa-comment me-1"></i>
+                    {post.comments?.length || 0} Comments
                   </span>
                 </div>
 
@@ -185,8 +227,11 @@ export const UserProfile = () => {
                 {showComments[post._id] && (
                   <div className="mt-2">
                     {/* Comments List */}
-                    {post.comments?.map(comment => (
-                      <div key={comment._id} className="d-flex align-items-start mb-2">
+                    {post.comments?.map((comment) => (
+                      <div
+                        key={comment._id}
+                        className="d-flex align-items-start mb-2"
+                      >
                         <div
                           className="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white flex-shrink-0 me-2"
                           style={{ width: 30, height: 30, fontSize: 13 }}
@@ -212,8 +257,15 @@ export const UserProfile = () => {
                         className="form-control form-control-sm rounded-pill"
                         placeholder="Write a comment..."
                         value={commentText[post._id] || ''}
-                        onChange={(e) => setCommentText(prev => ({ ...prev, [post._id]: e.target.value }))}
-                        onKeyDown={(e) => e.key === 'Enter' && handleComment(post._id)}
+                        onChange={(e) =>
+                          setCommentText((prev) => ({
+                            ...prev,
+                            [post._id]: e.target.value,
+                          }))
+                        }
+                        onKeyDown={(e) =>
+                          e.key === 'Enter' && handleComment(post._id)
+                        }
                       />
                       <button
                         className="btn btn-primary btn-sm rounded-pill px-3"
@@ -227,67 +279,93 @@ export const UserProfile = () => {
               </div>
             </div>
           ))
-        )
-      )}
+        ))}
 
       {/* Followers Tab */}
-      {activeTab === 'followers' && (
-        followers.length === 0 ? (
+      {activeTab === 'followers' &&
+        (followers.length === 0 ? (
           <p className="text-center text-muted">No followers yet.</p>
         ) : (
-          followers.map(user => (
-            <Link key={user._id} to={`/profile/${user._id}`} className="text-decoration-none">
+          followers.map((user) => (
+            <Link
+              key={user._id}
+              to={`/profile/${user._id}`}
+              className="text-decoration-none"
+            >
               <div className="card mb-2 border-0 shadow-sm">
                 <div className="card-body d-flex align-items-center gap-3 py-2">
                   <div
                     className="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white overflow-hidden flex-shrink-0"
                     style={{ width: 45, height: 45 }}
                   >
-                    {user.profilePicture
-                      ? <img src={`http://localhost:5000${user.profilePicture}`} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                      : user.name?.charAt(0).toUpperCase()
-                    }
+                    {user.profilePicture ? (
+                      <img
+                        src={`http://localhost:5000${user.profilePicture}`}
+                        alt=""
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                        }}
+                      />
+                    ) : (
+                      user.name?.charAt(0).toUpperCase()
+                    )}
                   </div>
                   <div>
                     <div className="fw-bold text-dark">{user.name}</div>
-                    <div className="text-muted small">{user.bio || 'No bio'}</div>
+                    <div className="text-muted small">
+                      {user.bio || 'No bio'}
+                    </div>
                   </div>
                 </div>
               </div>
             </Link>
           ))
-        )
-      )}
+        ))}
 
       {/* Following Tab */}
-      {activeTab === 'following' && (
-        following.length === 0 ? (
+      {activeTab === 'following' &&
+        (following.length === 0 ? (
           <p className="text-center text-muted">Not following anyone yet.</p>
         ) : (
-          following.map(user => (
-            <Link key={user._id} to={`/profile/${user._id}`} className="text-decoration-none">
+          following.map((user) => (
+            <Link
+              key={user._id}
+              to={`/profile/${user._id}`}
+              className="text-decoration-none"
+            >
               <div className="card mb-2 border-0 shadow-sm">
                 <div className="card-body d-flex align-items-center gap-3 py-2">
                   <div
                     className="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white overflow-hidden flex-shrink-0"
                     style={{ width: 45, height: 45 }}
                   >
-                    {user.profilePicture
-                      ? <img src={`http://localhost:5000${user.profilePicture}`} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                      : user.name?.charAt(0).toUpperCase()
-                    }
+                    {user.profilePicture ? (
+                      <img
+                        src={`http://localhost:5000${user.profilePicture}`}
+                        alt=""
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                        }}
+                      />
+                    ) : (
+                      user.name?.charAt(0).toUpperCase()
+                    )}
                   </div>
                   <div>
                     <div className="fw-bold text-dark">{user.name}</div>
-                    <div className="text-muted small">{user.bio || 'No bio'}</div>
+                    <div className="text-muted small">
+                      {user.bio || 'No bio'}
+                    </div>
                   </div>
                 </div>
               </div>
             </Link>
           ))
-        )
-      )}
-
+        ))}
     </div>
   );
 };

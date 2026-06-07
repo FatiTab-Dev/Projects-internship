@@ -1,4 +1,4 @@
- * {
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -18,13 +18,22 @@ body {
   font-family: 'Centra', sans-serif !important;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin: 0;
   padding: 0;
   line-height: normal;
 }
 
-p, a, li, button, ul {
+p,
+a,
+li,
+button,
+ul {
   margin: 0;
   padding: 0;
   line-height: normal;
@@ -45,50 +54,57 @@ button {
   background-color: transparent;
 }
 
-input:focus, textarea:focus, select:focus {
+input:focus,
+textarea:focus,
+select:focus {
   outline: none;
 }
 
-@media (min-width:1700px) {
-	main .container {
-		max-width: 100%;
-		padding: 0 150px;
-	}
+@media (min-width: 1700px) {
+  main .container {
+    max-width: 100%;
+    padding: 0 150px;
+  }
 }
 
 p.success {
-	color: green;
+  color: green;
 }
 
 p.danger {
-	color: red;
+  color: red;
 }
 p.warning {
   color: orange;
 }
-html, body, #root {
-    background-color: #0d1117;
-    min-height: 100vh;
-    margin: 0;
-    padding: 0;
-    width: 100%;
+html,
+body,
+#root {
+  background-color: #0d1117;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
 
-.card,.modal-dialog {
+.card,
+.modal-dialog {
   background-color: #022234;
   border: 1px solid #30363d;
   border-color: #044379;
   box-shadow: 2px 2px 3px #025966ce;
   color: #e6edf3 !important;
 }
-.card h1 { color:#03c5e3}
+.card h1 {
+  color: #03c5e3;
+}
 
 .form-control {
   background-color: #022234;
   border: 1px solid #30363d;
-   color: #044379 !important;
+  color: #044379 !important;
 }
-::placeholder{
+::placeholder {
   color: #aef7ff73 !important;
 }
 .form-control:focus {
@@ -119,7 +135,12 @@ html, body, #root {
 }
 
 /* Headings */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   color: #03c5e3;
 }
 

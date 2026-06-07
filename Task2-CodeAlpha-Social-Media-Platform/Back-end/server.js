@@ -11,12 +11,14 @@ import 'dotenv/config';
 connectDB();
 const app = express();
 app.use(cors());
-app.use(helmet({
-  crossOriginResourcePolicy: { policy: 'cross-origin' },
-}));
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: 'cross-origin' },
+  })
+);
 app.use(express.json());
-app.use('/api/users',userRoutes);
-app.use('/api/posts',postRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/posts', postRoutes);
 app.use('/uploads', express.static(path.resolve('uploads')));
 app.use('/api/notifications', notificationRoutes);
 const PORT = process.env.PORT || 5000;

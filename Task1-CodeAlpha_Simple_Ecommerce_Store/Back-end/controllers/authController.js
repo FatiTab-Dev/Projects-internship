@@ -1,4 +1,4 @@
-import User from '../models/User.js'; 
+import User from '../models/User.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
@@ -15,7 +15,6 @@ export const signup = async (req, res) => {
       return res.status(400).json({ message: 'User already exists' });
     }
 
-
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
@@ -24,7 +23,13 @@ export const signup = async (req, res) => {
     res.status(201).json({
       message: 'User registered successfully',
       token: generateToken(user._id),
-      user: { id: user._id, name: user.name, email: user.email, role: user.role, isAdmin: user.isAdmin }
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        isAdmin: user.isAdmin,
+      },
     });
   } catch (error) {
     res.status(500).json({ message: 'Server error during signup' });
@@ -40,13 +45,19 @@ export const login = async (req, res) => {
     if (user && (await bcrypt.compare(password, user.password))) {
       res.status(200).json({
         token: generateToken(user._id),
-        user: { id: user._id, name: user.name, email: user.email, role: user.role, isAdmin: user.isAdmin }
+        user: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          isAdmin: user.isAdmin,
+        },
       });
     } else {
       res.status(401).json({ message: 'Invalid email or password' });
     }
   } catch (error) {
-    console.log("Error Log:", error);
+    console.log('Error Log:', error);
     res.status(500).json({ message: 'Server error during login' });
   }
 };

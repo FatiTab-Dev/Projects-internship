@@ -19,7 +19,7 @@ export const Home = () => {
       setPosts(res.data);
       setLoading(false);
     } catch (err) {
-      console.error("Error fetching posts:", err);
+      console.error('Error fetching posts:', err);
       setLoading(false);
     }
   };
@@ -38,7 +38,7 @@ export const Home = () => {
 
     try {
       await api.post('/posts', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
+        headers: { 'Content-Type': 'multipart/form-data' },
       });
       setContent('');
       setImage(null);
@@ -46,7 +46,7 @@ export const Home = () => {
       fetchPosts();
       setTimeout(() => setMessage({ text: '', type: '' }), 3000);
     } catch (err) {
-      setMessage({ text: "Failed to post", type: 'danger' });
+      setMessage({ text: 'Failed to post', type: 'danger' });
     }
   };
 
@@ -55,7 +55,7 @@ export const Home = () => {
       await api.post(`/posts/${postId}/like`);
       fetchPosts();
     } catch (err) {
-      console.error("Error liking post:", err);
+      console.error('Error liking post:', err);
     }
   };
 
@@ -63,15 +63,15 @@ export const Home = () => {
     if (!commentText[postId]?.trim()) return;
     try {
       await api.post(`/posts/${postId}/comment`, { text: commentText[postId] });
-      setCommentText(prev => ({ ...prev, [postId]: '' }));
+      setCommentText((prev) => ({ ...prev, [postId]: '' }));
       fetchPosts();
     } catch (err) {
-      console.error("Error adding comment:", err);
+      console.error('Error adding comment:', err);
     }
   };
 
   const toggleComments = (postId) => {
-    setShowComments(prev => ({ ...prev, [postId]: !prev[postId] }));
+    setShowComments((prev) => ({ ...prev, [postId]: !prev[postId] }));
   };
 
   const isLiked = (post) => {
@@ -79,13 +79,14 @@ export const Home = () => {
   };
 
   return (
-    <div className="home container mt-5" style={{ backgroundColor: "#f0f2f5", minHeight: "100vh" }}>
+    <div
+      className="home container mt-5"
+      style={{ backgroundColor: '#f0f2f5', minHeight: '100vh' }}
+    >
       <div className="row">
-
         {/* ── Sidebar ── */}
         <div className="col-md-3 d-none d-md-block">
           <div className="card border-0 shadow-sm p-3">
-
             {/* User Info */}
             <div className="d-flex align-items-center mb-3">
               <div
@@ -125,7 +126,6 @@ export const Home = () => {
 
         {/* ── Feed ── */}
         <div className="col-md-6">
-
           {/* Create Post */}
           <div className="card mb-4 shadow-sm border-0">
             <div className="card-body">
@@ -160,7 +160,9 @@ export const Home = () => {
                 </button>
               </div>
               {message.text && (
-                <div className={`alert alert-${message.type} text-center small py-2 mt-2 mb-0`}>
+                <div
+                  className={`alert alert-${message.type} text-center small py-2 mt-2 mb-0`}
+                >
                   {message.text}
                 </div>
               )}
@@ -171,12 +173,13 @@ export const Home = () => {
           {loading ? (
             <p className="text-center">Loading posts...</p>
           ) : posts.length === 0 ? (
-            <p className="text-center text-muted">No posts yet. Be the first to post!</p>
+            <p className="text-center text-muted">
+              No posts yet. Be the first to post!
+            </p>
           ) : (
-            posts.map(post => (
+            posts.map((post) => (
               <div key={post._id} className="card mb-4 shadow-sm border-0">
                 <div className="card-body">
-
                   {/* Author */}
                   <div className="d-flex align-items-center mb-3">
                     <div
@@ -192,9 +195,14 @@ export const Home = () => {
                       >
                         {post.user?.name || 'User'}
                       </Link>
-                      <div className="text-muted" style={{ fontSize: '0.75rem' }}>
+                      <div
+                        className="text-muted"
+                        style={{ fontSize: '0.75rem' }}
+                      >
                         {new Date(post.createdAt).toLocaleDateString('en-US', {
-                          month: 'short', day: 'numeric', year: 'numeric'
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric',
                         })}
                       </div>
                     </div>
@@ -227,7 +235,8 @@ export const Home = () => {
                           style={{ cursor: 'pointer' }}
                           onClick={() => toggleComments(post._id)}
                         >
-                          {post.comments.length} comment{post.comments.length > 1 ? 's' : ''}
+                          {post.comments.length} comment
+                          {post.comments.length > 1 ? 's' : ''}
                         </span>
                       )}
                     </div>
@@ -239,7 +248,9 @@ export const Home = () => {
                       onClick={() => handleLike(post._id)}
                       className={`btn btn-sm w-50 ${isLiked(post) ? 'text-primary fw-bold' : 'text-muted'}`}
                     >
-                      <i className={`${isLiked(post) ? 'fas' : 'far'} fa-thumbs-up me-1`}></i>
+                      <i
+                        className={`${isLiked(post) ? 'fas' : 'far'} fa-thumbs-up me-1`}
+                      ></i>
                       Like
                     </button>
                     <button
@@ -254,10 +265,12 @@ export const Home = () => {
                   {/* Comments Section */}
                   {showComments[post._id] && (
                     <div>
-
                       {/* Comments List */}
-                      {post.comments?.map(comment => (
-                        <div key={comment._id} className="d-flex align-items-start mb-2">
+                      {post.comments?.map((comment) => (
+                        <div
+                          key={comment._id}
+                          className="d-flex align-items-start mb-2"
+                        >
                           <div
                             className="bg-secondary rounded-circle me-2 d-flex align-items-center justify-content-center text-white flex-shrink-0"
                             style={{ width: 30, height: 30, fontSize: 13 }}
@@ -282,7 +295,8 @@ export const Home = () => {
                           className="bg-primary rounded-circle d-flex align-items-center justify-content-center text-white flex-shrink-0"
                           style={{ width: 32, height: 32, fontSize: 14 }}
                         >
-                          {currentUser?.user?.name?.charAt(0).toUpperCase() || 'U'}
+                          {currentUser?.user?.name?.charAt(0).toUpperCase() ||
+                            'U'}
                         </div>
                         <div className="d-flex gap-2 w-100">
                           <input
@@ -290,11 +304,15 @@ export const Home = () => {
                             className="form-control form-control-sm rounded-pill"
                             placeholder="Write a comment..."
                             value={commentText[post._id] || ''}
-                            onChange={(e) => setCommentText(prev => ({
-                              ...prev,
-                              [post._id]: e.target.value
-                            }))}
-                            onKeyDown={(e) => e.key === 'Enter' && handleComment(post._id)}
+                            onChange={(e) =>
+                              setCommentText((prev) => ({
+                                ...prev,
+                                [post._id]: e.target.value,
+                              }))
+                            }
+                            onKeyDown={(e) =>
+                              e.key === 'Enter' && handleComment(post._id)
+                            }
                           />
                           <button
                             className="btn btn-primary btn-sm rounded-pill px-3"
@@ -304,10 +322,8 @@ export const Home = () => {
                           </button>
                         </div>
                       </div>
-
                     </div>
                   )}
-
                 </div>
               </div>
             ))
@@ -328,11 +344,12 @@ export const Home = () => {
                 </div>
                 <span className="small">User</span>
               </div>
-              <button className="btn btn-outline-primary btn-sm rounded-pill">Follow</button>
+              <button className="btn btn-outline-primary btn-sm rounded-pill">
+                Follow
+              </button>
             </div>
           </div>
         </div>
-
       </div>
     </div>
   );

@@ -48,25 +48,47 @@ function App() {
       .then((res) => res.json())
       .then((data) => setBikes(data))
       .catch((err) => console.error('Error updating stock from server:', err));
-    
+
     setCartItems([]);
   };
 
   return (
     <Router>
       <div className="App">
-        <Navbar cartCount={cartItems.length} user={user} onLogout={handleLogout} />
+        <Navbar
+          cartCount={cartItems.length}
+          user={user}
+          onLogout={handleLogout}
+        />
         <Routes>
-          <Route path="/" element={<Home bikes={bikes} onAddToCart={addToCart} />} />
+          <Route
+            path="/"
+            element={<Home bikes={bikes} onAddToCart={addToCart} />}
+          />
           <Route path="/cart" element={<Cart cartItems={cartItems} />} />
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
-          
+
           <Route element={<ProtectedRoute />}>
-            <Route path="/dashboard" element={<Dashboard products={bikes} setProducts={setBikes} />} />
+            <Route
+              path="/dashboard"
+              element={<Dashboard products={bikes} setProducts={setBikes} />}
+            />
           </Route>
 
-          <Route path="/product/:id" element={<ProductDetails onAddToCart={addToCart} />} />
-          <Route path="/checkout" element={<Checkout cartItems={cartItems} user={user} onCheckout={handleFinalOrder} />} />
+          <Route
+            path="/product/:id"
+            element={<ProductDetails onAddToCart={addToCart} />}
+          />
+          <Route
+            path="/checkout"
+            element={
+              <Checkout
+                cartItems={cartItems}
+                user={user}
+                onCheckout={handleFinalOrder}
+              />
+            }
+          />
         </Routes>
         <Footer />
       </div>

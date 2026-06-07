@@ -18,8 +18,8 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/" element={<Dashboard />} />
-            <Route path="/project/:id" element={<ProjectBoard />} /> 
-            <Route path="/task/:id" element={<TaskDetail />} /> 
+            <Route path="/project/:id" element={<ProjectBoard />} />
+            <Route path="/task/:id" element={<TaskDetail />} />
           </Route>
         </Routes>
       </BrowserRouter>

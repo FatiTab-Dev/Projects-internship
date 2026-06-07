@@ -1,104 +1,197 @@
 // import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import bike1 from '../assets/img/bike1.jpg'; 
-import bike2 from '../assets/img/bike2.jpg'; 
-import bike3 from '../assets/img/bike3.jpg'; 
-import bike4 from '../assets/img/bike4.jpg'; 
-import bike5 from '../assets/img/bike5.jpg'; 
-import bike6 from '../assets/img/bike6.jpg'; 
-import bike7 from '../assets/img/bike7.jpg'; 
-import bike8 from '../assets/img/bike8.jpg'; 
+import bike1 from '../assets/img/bike1.jpg';
+import bike2 from '../assets/img/bike2.jpg';
+import bike3 from '../assets/img/bike3.jpg';
+import bike4 from '../assets/img/bike4.jpg';
+import bike5 from '../assets/img/bike5.jpg';
+import bike6 from '../assets/img/bike6.jpg';
+import bike7 from '../assets/img/bike7.jpg';
+import bike8 from '../assets/img/bike8.jpg';
 
 export const Carsoul = () => {
   return (
     <div id="home" className="hero-carousel-wrapper">
-      <div id="bikeCarousel" className="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="4000">
-
-       
+      <div
+        id="bikeCarousel"
+        className="carousel slide carousel-fade"
+        data-bs-ride="carousel"
+        data-bs-interval="4000"
+      >
         <div className="carousel-indicators">
-          <button type="button" data-bs-target="#bikeCarousel" data-bs-slide-to="0" className="active" aria-current="true"></button>
-          <button type="button" data-bs-target="#bikeCarousel" data-bs-slide-to="1"></button>
-          <button type="button" data-bs-target="#bikeCarousel" data-bs-slide-to="2"></button>
-          <button type="button" data-bs-target="#bikeCarousel" data-bs-slide-to="3"></button>
-          <button type="button" data-bs-target="#bikeCarousel" data-bs-slide-to="4"></button>
-          <button type="button" data-bs-target="#bikeCarousel" data-bs-slide-to="5"></button>
-          <button type="button" data-bs-target="#bikeCarousel" data-bs-slide-to="6"></button>
-          <button type="button" data-bs-target="#bikeCarousel" data-bs-slide-to="7"></button>
+          <button
+            type="button"
+            data-bs-target="#bikeCarousel"
+            data-bs-slide-to="0"
+            className="active"
+            aria-current="true"
+          ></button>
+          <button
+            type="button"
+            data-bs-target="#bikeCarousel"
+            data-bs-slide-to="1"
+          ></button>
+          <button
+            type="button"
+            data-bs-target="#bikeCarousel"
+            data-bs-slide-to="2"
+          ></button>
+          <button
+            type="button"
+            data-bs-target="#bikeCarousel"
+            data-bs-slide-to="3"
+          ></button>
+          <button
+            type="button"
+            data-bs-target="#bikeCarousel"
+            data-bs-slide-to="4"
+          ></button>
+          <button
+            type="button"
+            data-bs-target="#bikeCarousel"
+            data-bs-slide-to="5"
+          ></button>
+          <button
+            type="button"
+            data-bs-target="#bikeCarousel"
+            data-bs-slide-to="6"
+          ></button>
+          <button
+            type="button"
+            data-bs-target="#bikeCarousel"
+            data-bs-slide-to="7"
+          ></button>
         </div>
 
-        
         <div className="carousel-inner">
-          
-          
           <div className="carousel-item active">
             <div className="overlay"></div>
-           
-            <img src={bike1} className="d-block w-100 carousel-img" alt="Mountain Bike 1" />
+
+            <img
+              src={bike1}
+              className="d-block w-100 carousel-img"
+              alt="Mountain Bike 1"
+            />
             <div className="carousel-caption text-start px-4">
-              <h1 className="display-3 fw-bold text-white uppercase-text">Discover the Power<br/> of <span>Unmatched Durability</span></h1>
-              <p className="lead text-white-50 my-4">Professional bikes engineered to conquer the toughest trails and highest peaks.</p>
-              <a href="#bikes" className="btn btn-lg px-5 py-3 rounded-pill fw-bold text-white shadow-lg custom-btn">
-              Shop Now <i className="fas fa-shopping-bag ms-2"></i>
+              <h1 className="display-3 fw-bold text-white uppercase-text">
+                Discover the Power
+                <br /> of <span>Unmatched Durability</span>
+              </h1>
+              <p className="lead text-white-50 my-4">
+                Professional bikes engineered to conquer the toughest trails and
+                highest peaks.
+              </p>
+              <a
+                href="#bikes"
+                className="btn btn-lg px-5 py-3 rounded-pill fw-bold text-white shadow-lg custom-btn"
+              >
+                Shop Now <i className="fas fa-shopping-bag ms-2"></i>
               </a>
             </div>
           </div>
 
-          
           <div className="carousel-item">
             <div className="overlay"></div>
-            <img src={bike2} className="d-block w-100 carousel-img" alt="Mountain Bike 2" />
+            <img
+              src={bike2}
+              className="d-block w-100 carousel-img"
+              alt="Mountain Bike 2"
+            />
             <div className="carousel-caption text-start px-4">
-              <h1 className="display-3 fw-bold text-white">Speed, Lightness, <br/><span className="text-warning">Unmatched Performance</span></h1>
-              <p className="lead text-white-50 my-4">Carbon fiber and advanced engineering give you complete control on every trail.</p>
-              <a href="#bikes" className="btn btn-lg px-5 py-3 rounded-pill fw-bold text-white shadow-lg custom-btn">
-               view details<i className="fas fa-arrow-left ms-2"></i>
+              <h1 className="display-3 fw-bold text-white">
+                Speed, Lightness, <br />
+                <span className="text-warning">Unmatched Performance</span>
+              </h1>
+              <p className="lead text-white-50 my-4">
+                Carbon fiber and advanced engineering give you complete control
+                on every trail.
+              </p>
+              <a
+                href="#bikes"
+                className="btn btn-lg px-5 py-3 rounded-pill fw-bold text-white shadow-lg custom-btn"
+              >
+                view details<i className="fas fa-arrow-left ms-2"></i>
               </a>
             </div>
           </div>
 
-           <div className="carousel-item">
+          <div className="carousel-item">
             <div className="overlay"></div>
-            <img src={bike3} className="d-block w-100 carousel-img" alt="Mountain Bike 4" />
+            <img
+              src={bike3}
+              className="d-block w-100 carousel-img"
+              alt="Mountain Bike 4"
+            />
           </div>
 
           <div className="carousel-item">
             <div className="overlay"></div>
-            <img src={bike4} className="d-block w-100 carousel-img" alt="Mountain Bike 5" />
+            <img
+              src={bike4}
+              className="d-block w-100 carousel-img"
+              alt="Mountain Bike 5"
+            />
           </div>
-           <div className="carousel-item">
+          <div className="carousel-item">
             <div className="overlay"></div>
-            <img src={bike5} className="d-block w-100 carousel-img" alt="Mountain Bike 5" />
+            <img
+              src={bike5}
+              className="d-block w-100 carousel-img"
+              alt="Mountain Bike 5"
+            />
           </div>
-           <div className="carousel-item">
+          <div className="carousel-item">
             <div className="overlay"></div>
-            <img src={bike6} className="d-block w-100 carousel-img" alt="Mountain Bike 6" />
+            <img
+              src={bike6}
+              className="d-block w-100 carousel-img"
+              alt="Mountain Bike 6"
+            />
           </div>
-           <div className="carousel-item">
+          <div className="carousel-item">
             <div className="overlay"></div>
-            <img src={bike7} className="d-block w-100 carousel-img" alt="Mountain Bike 7" />
+            <img
+              src={bike7}
+              className="d-block w-100 carousel-img"
+              alt="Mountain Bike 7"
+            />
           </div>
-           <div className="carousel-item">
+          <div className="carousel-item">
             <div className="overlay"></div>
-            <img src={bike8} className="d-block w-100 carousel-img" alt="Mountain Bike 8" />
+            <img
+              src={bike8}
+              className="d-block w-100 carousel-img"
+              alt="Mountain Bike 8"
+            />
           </div>
         </div>
 
-       
-
-
-        
-        <button className="carousel-control-prev" type="button" data-bs-target="#bikeCarousel" data-bs-slide="prev">
-          <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+        <button
+          className="carousel-control-prev"
+          type="button"
+          data-bs-target="#bikeCarousel"
+          data-bs-slide="prev"
+        >
+          <span
+            className="carousel-control-prev-icon"
+            aria-hidden="true"
+          ></span>
           <span className="visually-hidden">Previous</span>
         </button>
-        <button className="carousel-control-next" type="button" data-bs-target="#bikeCarousel" data-bs-slide="next">
-          <span className="carousel-control-next-icon" aria-hidden="true"></span>
+        <button
+          className="carousel-control-next"
+          type="button"
+          data-bs-target="#bikeCarousel"
+          data-bs-slide="next"
+        >
+          <span
+            className="carousel-control-next-icon"
+            aria-hidden="true"
+          ></span>
           <span className="visually-hidden">Next</span>
         </button>
-
       </div>
     </div>
-
   );
 };
