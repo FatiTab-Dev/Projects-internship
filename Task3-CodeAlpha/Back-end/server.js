@@ -17,10 +17,10 @@ app.use(helmet({
   crossOriginResourcePolicy: { policy: 'cross-origin' },
 }));
 app.use('/api/auth', authRoutes);
-app.use('api/projects', projectRoutes);
-app.use('api/tasks', taskRoutes);
-app.use('api/comments', commentRoutes);
-app.use('api/notifications', notificationRoutes);
+app.use('/api/projects', projectRoutes);
+app.use('/api/tasks', taskRoutes);
+app.use('/api/comments', commentRoutes);
+app.use('/api/notifications', notificationRoutes);
 
 
 const PORT = process.env.PORT || 5000;
