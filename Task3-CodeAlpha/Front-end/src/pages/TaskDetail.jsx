@@ -6,7 +6,7 @@ export const TaskDetail = () => {
   const [message, setMessage] = useState({ text: '', type: '' });
   const [comment, setcomment] = useState([]);
   const [newcomment, cetNewComment] = useState('');
-  const [setEditingComment] = useState(null);
+  const [editingComment, setEditingComment] = useState(null);
   const { token } = useAuth();
   const { id } = useParams();
   const navigate = useNavigate();
@@ -54,6 +54,27 @@ export const TaskDetail = () => {
     }
   };
 
+  const updateComment = async () => {
+    try {
+      await fetch(`${API}/comments/${editingComment._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ text: editingComment.text }),
+      });
+      setcomment((prev) =>
+        prev.map((c) =>
+          c._id === editingComment._id ? { ...c, text: editingComment.text } : c
+        )
+      );
+      setEditingComment(null);
+    } catch {
+      setMessage({ text: 'Error updating comment', type: 'danger' });
+    }
+  };
+
   return (
     <div className="container mt-4">
       {message.text && (
@@ -73,27 +94,57 @@ export const TaskDetail = () => {
         <h5>Comments</h5>
         {comment.map((c) => (
           <div key={c._id} className="card p-2 mb-2">
-            <p>{c.text}</p>
-            <small className="text-muted">
-              {new Date(c.createdAt).toLocaleDateString()}
-            </small>
-            <div className="d-flex gap-2 mt-2">
-              <button
-                className="btn btn-sm btn-outline-danger"
-                onClick={() => deleteComment(c._id)}
-              >
-                Delete
-              </button>
-              <button
-                className="btn btn-sm btn-outline-warning"
-                onClick={() => setEditingComment(c)}
-              >
-                Edit
-              </button>
-            </div>
+            {editingComment?._id === c._id ? (
+              <>
+                <textarea
+                  className="form-control mb-2"
+                  value={editingComment.text}
+                  onChange={(e) =>
+                    setEditingComment({
+                      ...editingComment,
+                      text: e.target.value,
+                    })
+                  }
+                />
+                <div className="d-flex gap-2">
+                  <button
+                    className="btn btn-sm btn-outline-info"
+                    onClick={updateComment}
+                  >
+                    Save
+                  </button>
+                  <button
+                    className="btn btn-sm btn-outline-secondary"
+                    onClick={() => setEditingComment(null)}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <p>{c.text}</p>
+                <small className="text-muted">
+                  {new Date(c.createdAt).toLocaleDateString()}
+                </small>
+                <div className="d-flex gap-2 mt-2">
+                  <button
+                    className="btn btn-sm btn-outline-danger"
+                    onClick={() => deleteComment(c._id)}
+                  >
+                    Delete
+                  </button>
+                  <button
+                    className="btn btn-sm btn-outline-warning"
+                    onClick={() => setEditingComment(c)}
+                  >
+                    Edit
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         ))}
-
         {/* Add Comment */}
         <div className="mt-3">
           <textarea

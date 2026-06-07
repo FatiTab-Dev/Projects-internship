@@ -9,10 +9,12 @@ export const ProjectBoard = () => {
   const [showModal, setShowModal] = useState(false);
   const [newTitle, setNewTitle] = useState('');
   const [newDesc, setNewDesc] = useState('');
+  const [editingTask, setEditingTask] = useState(null);
   const navigate = useNavigate();
   const { id } = useParams();
   const { token } = useAuth();
   const API = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
   useEffect(() => {
     fetch(`${API}/tasks/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
@@ -47,6 +49,7 @@ export const ProjectBoard = () => {
       setMessage({ text: 'Error creating task', type: 'danger' });
     }
   };
+
   const updateTaskStatus = async (taskId, newStatus) => {
     try {
       await fetch(`${API}/tasks/${taskId}`, {
@@ -64,6 +67,43 @@ export const ProjectBoard = () => {
       setMessage({ text: 'Error updating task', type: 'danger' });
     }
   };
+
+  const deleteTask = async (taskId) => {
+    try {
+      await fetch(`${API}/tasks/${taskId}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setTask((prev) => prev.filter((t) => t._id !== taskId));
+    } catch {
+      setMessage({ text: 'Error deleting task', type: 'danger' });
+    }
+  };
+
+  const updateTask = async () => {
+    try {
+      await fetch(`${API}/tasks/${editingTask._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          title: editingTask.title,
+          description: editingTask.description,
+        }),
+      });
+      setTask((prev) =>
+        prev.map((t) =>
+          t._id === editingTask._id ? { ...t, ...editingTask } : t
+        )
+      );
+      setEditingTask(null);
+    } catch {
+      setMessage({ text: 'Error updating task', type: 'danger' });
+    }
+  };
+
   const onDragEnd = async (result) => {
     const { destination, source, draggableId } = result;
     if (!destination) return;
@@ -118,24 +158,87 @@ export const ProjectBoard = () => {
                               {...provided.dragHandleProps}
                               className="card p-3 mb-2"
                             >
-                              <h6
-                                onClick={() => navigate(`/task/${t._id}`)}
-                                style={{ cursor: 'pointer' }}
-                              >
-                                {t.title}
-                              </h6>
-                              <p className="small">{t.description}</p>
-                              <select
-                                className="form-select form-select-sm mt-2"
-                                value={t.status}
-                                onChange={(e) =>
-                                  updateTaskStatus(t._id, e.target.value)
-                                }
-                              >
-                                <option value="todo">Todo</option>
-                                <option value="inProgress">In Progress</option>
-                                <option value="done">Done</option>
-                              </select>
+                              {editingTask?._id === t._id ? (
+                                <>
+                                  <input
+                                    className="form-control mb-2"
+                                    value={editingTask.title}
+                                    onChange={(e) =>
+                                      setEditingTask({
+                                        ...editingTask,
+                                        title: e.target.value,
+                                      })
+                                    }
+                                  />
+                                  <textarea
+                                    className="form-control mb-2"
+                                    value={editingTask.description}
+                                    onChange={(e) =>
+                                      setEditingTask({
+                                        ...editingTask,
+                                        description: e.target.value,
+                                      })
+                                    }
+                                  />
+                                  <div className="d-flex gap-2">
+                                    <button
+                                      className="btn btn-sm btn-outline-info"
+                                      onClick={updateTask}
+                                    >
+                                      Save
+                                    </button>
+                                    <button
+                                      className="btn btn-sm btn-outline-secondary"
+                                      onClick={() => setEditingTask(null)}
+                                    >
+                                      Cancel
+                                    </button>
+                                  </div>
+                                </>
+                              ) : (
+                                <>
+                                  <h6
+                                    onClick={() => navigate(`/task/${t._id}`)}
+                                    style={{ cursor: 'pointer' }}
+                                  >
+                                    {t.title}
+                                  </h6>
+                                  <p className="small">{t.description}</p>
+                                  <select
+                                    className="form-select form-select-sm mt-2"
+                                    value={t.status}
+                                    onChange={(e) =>
+                                      updateTaskStatus(t._id, e.target.value)
+                                    }
+                                  >
+                                    <option value="todo">Todo</option>
+                                    <option value="inProgress">
+                                      In Progress
+                                    </option>
+                                    <option value="done">Done</option>
+                                  </select>
+                                  <div className="d-flex gap-2 mt-2">
+                                    <button
+                                      className="btn btn-sm btn-outline-warning"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setEditingTask(t);
+                                      }}
+                                    >
+                                      Edit
+                                    </button>
+                                    <button
+                                      className="btn btn-sm btn-outline-danger"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        deleteTask(t._id);
+                                      }}
+                                    >
+                                      Delete
+                                    </button>
+                                  </div>
+                                </>
+                              )}
                             </div>
                           )}
                         </Draggable>
@@ -195,4 +298,5 @@ export const ProjectBoard = () => {
     </div>
   );
 };
+
 export default ProjectBoard;
