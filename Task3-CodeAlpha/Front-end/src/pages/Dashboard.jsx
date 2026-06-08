@@ -42,6 +42,10 @@ export const Dashboard = () => {
       setShowModal(false);
       setNewTitle('');
       setNewDesc('');
+      if (setProject) {
+        setMessage({ text: 'Project created Successfully!', type: 'success' });
+        return;
+      }
     } catch {
       setMessage({ text: 'Error creating project', type: 'danger' });
     }
@@ -59,7 +63,6 @@ export const Dashboard = () => {
   };
   const inviteMember = async () => {
     try {
-      console.log(invitingProject);
       const res = await fetch(`${API}/projects/${invitingProject}/invite`, {
         method: 'POST',
         headers: {
@@ -73,7 +76,7 @@ export const Dashboard = () => {
         setMessage({ text: data.message || 'Error', type: 'danger' });
         return;
       }
-      setMessage({ text: 'Member invited successfully! 🎉', type: 'success' });
+      setMessage({ text: 'Member invited successfully!', type: 'success' });
       setInvitingProject(null);
       setInviteEmail('');
     } catch (err) {
@@ -203,7 +206,7 @@ export const Dashboard = () => {
         </div>
       </nav>
       {message.text && (
-        <div className={`alert alert-${message.type} mt-3 small`}>
+        <div className={`alert alert-${message.type} mt-3 w-auto small`}>
           {message.text}
         </div>
       )}
@@ -250,7 +253,7 @@ export const Dashboard = () => {
       <div className="row mt-4">
         {project.map((p) => (
           <div key={p._id} className="col-md-4 mb-3">
-            <div className="card p-3 project-card">
+            <div className="card p-3 project-card h-100">
               <h5
                 className="m-3"
                 onClick={() => navigate(`/project/${p._id}`)}
@@ -266,7 +269,7 @@ export const Dashboard = () => {
                     : 'Just now'}
                 </small>
               </h5>
-              <p>{p.description}</p>
+              <p className="m-2">{p.description}</p>
               <div className="d-flex gap-2 mt-2">
                 <button
                   className="btn btn-sm btn-outline-warning"

@@ -5,7 +5,6 @@ import { useAuth } from '../context/AuthContext';
 export const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  //    const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState({ text: '', type: '' });
   const API = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
   const { login } = useAuth();

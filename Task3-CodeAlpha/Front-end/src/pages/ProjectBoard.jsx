@@ -56,6 +56,10 @@ export const ProjectBoard = () => {
       setNewTitle('');
       setNewDesc('');
       setNewAssignedTo('');
+      if (fetchTasks) {
+        setMessage({ text: 'task Created Successfully!', type: 'success' });
+        return;
+      }
     } catch {
       setMessage({ text: 'Error creating task', type: 'danger' });
     }
@@ -84,6 +88,10 @@ export const ProjectBoard = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       await fetchTasks();
+      if (fetchTasks) {
+        setMessage({ text: 'Task removed Successfully!', type: 'success' });
+        return;
+      }
     } catch {
       setMessage({ text: 'Error deleting task', type: 'danger' });
     }
@@ -104,6 +112,10 @@ export const ProjectBoard = () => {
         }),
       });
       await fetchTasks();
+      if (fetchTasks) {
+        setMessage({ text: 'Task updated Successfully!', type: 'success' });
+        return;
+      }
       setEditingTask(null);
     } catch {
       setMessage({ text: 'Error updating task', type: 'danger' });
@@ -132,7 +144,7 @@ export const ProjectBoard = () => {
         + Add Task
       </button>
       {message.text && (
-        <div className={`alert alert-${message.type} mt-3 small`}>
+        <div className={`alert alert-${message.type} mt-3 w-auto small`}>
           {message.text}
         </div>
       )}

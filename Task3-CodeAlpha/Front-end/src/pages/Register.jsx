@@ -5,7 +5,6 @@ export const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
-  //    const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState({ text: '', type: '' });
   const API = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
   const navigate = useNavigate();
