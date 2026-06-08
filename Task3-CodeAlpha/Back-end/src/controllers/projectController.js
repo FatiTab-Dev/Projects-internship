@@ -32,7 +32,10 @@ export const getProject = async (req, res) => {
 // get my project
 export const getProjectById = async (req, res) => {
   try {
-    const project = await Project.findById(req.params.id);
+    const project = await Project.findById(req.params.id).populate(
+      'members',
+      'name email'
+    );
     if (!project) {
       return res.status(404).json({ message: 'Project not found' });
     }
@@ -78,9 +81,9 @@ export const inviteMember = async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
     if (!project) return res.status(404).json({ message: 'project not found' });
-    if (project.owner.toString() !== req.user._id.toString()) {
-      return res.status(401).json({ message: 'Not authorized' });
-    }
+    // if (project.owner.toString() !== req.user._id.toString()) {
+    //   return res.status(401).json({ message: 'Not authorized' });
+    // }
     const { email } = req.body;
     const userToInvite = await User.findOne({ email });
     if (!userToInvite)

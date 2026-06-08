@@ -4,6 +4,7 @@ import {
   createComment,
   getComment,
   deleteComment,
+  updateComment,
 } from '../controllers/commentController.js';
 
 const router = express.Router();
@@ -12,6 +13,8 @@ const router = express.Router();
 router.post('/', auth, createComment);
 // get comment task
 router.get('/:taskId', auth, getComment);
+// update comment
+router.put('/:id', auth, updateComment);
 // delete comment
 router.delete('/:id', auth, deleteComment);
 

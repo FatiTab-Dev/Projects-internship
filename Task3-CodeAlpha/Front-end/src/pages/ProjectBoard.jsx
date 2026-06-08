@@ -9,26 +9,34 @@ export const ProjectBoard = () => {
   const [showModal, setShowModal] = useState(false);
   const [newTitle, setNewTitle] = useState('');
   const [newDesc, setNewDesc] = useState('');
+  const [members, setMembers] = useState([]);
+  const [newAssignedTo, setNewAssignedTo] = useState('');
   const [editingTask, setEditingTask] = useState(null);
   const navigate = useNavigate();
   const { id } = useParams();
   const { token } = useAuth();
   const API = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
+  const fetchTasks = async () => {
+    const res = await fetch(`${API}/tasks/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const data = await res.json();
+    setTask(Array.isArray(data) ? data : []);
+  };
+
   useEffect(() => {
-    fetch(`${API}/tasks/${id}`, {
+    fetchTasks();
+    fetch(`${API}/projects/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
-      .then((data) => setTask(Array.isArray(data) ? data : []))
-      .catch(() =>
-        setMessage({ text: 'Error fetching tasks', type: 'danger' })
-      );
+      .then((data) => setMembers(data.members || []));
   }, [id]);
 
   const createTask = async () => {
     try {
-      const res = await fetch(`${API}/tasks`, {
+      await fetch(`${API}/tasks`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -38,13 +46,14 @@ export const ProjectBoard = () => {
           title: newTitle,
           description: newDesc,
           projectId: id,
+          assignedTo: newAssignedTo,
         }),
       });
-      const data = await res.json();
-      setTask((prev) => [data, ...prev]);
+      await fetchTasks();
       setShowModal(false);
       setNewTitle('');
       setNewDesc('');
+      setNewAssignedTo('');
     } catch {
       setMessage({ text: 'Error creating task', type: 'danger' });
     }
@@ -60,9 +69,7 @@ export const ProjectBoard = () => {
         },
         body: JSON.stringify({ status: newStatus }),
       });
-      setTask((prev) =>
-        prev.map((t) => (t._id === taskId ? { ...t, status: newStatus } : t))
-      );
+      await fetchTasks();
     } catch {
       setMessage({ text: 'Error updating task', type: 'danger' });
     }
@@ -74,7 +81,7 @@ export const ProjectBoard = () => {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });
-      setTask((prev) => prev.filter((t) => t._id !== taskId));
+      await fetchTasks();
     } catch {
       setMessage({ text: 'Error deleting task', type: 'danger' });
     }
@@ -91,13 +98,10 @@ export const ProjectBoard = () => {
         body: JSON.stringify({
           title: editingTask.title,
           description: editingTask.description,
+          assignedTo: editingTask.assignedTo,
         }),
       });
-      setTask((prev) =>
-        prev.map((t) =>
-          t._id === editingTask._id ? { ...t, ...editingTask } : t
-        )
-      );
+      await fetchTasks();
       setEditingTask(null);
     } catch {
       setMessage({ text: 'Error updating task', type: 'danger' });
@@ -134,7 +138,10 @@ export const ProjectBoard = () => {
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="row mt-4">
           {['todo', 'inProgress', 'done'].map((status) => (
-            <div key={status} className={`col-md-4 kanban-col col-${status}`}>
+            <div
+              key={status}
+              className={`col-md-4 col-sm-12 kanban-col col-${status}`}
+            >
               <h5 className="text-capitalize pb-4">{status}</h5>
               <Droppable droppableId={status}>
                 {(provided) => (
@@ -156,7 +163,7 @@ export const ProjectBoard = () => {
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
-                              className="card p-3 mb-2"
+                              className="card p-3 mb-2 task-card"
                             >
                               {editingTask?._id === t._id ? (
                                 <>
@@ -180,6 +187,27 @@ export const ProjectBoard = () => {
                                       })
                                     }
                                   />
+                                  <select
+                                    className="form-select mb-2"
+                                    value={
+                                      editingTask.assignedTo?._id ||
+                                      editingTask.assignedTo ||
+                                      ''
+                                    }
+                                    onChange={(e) =>
+                                      setEditingTask({
+                                        ...editingTask,
+                                        assignedTo: e.target.value,
+                                      })
+                                    }
+                                  >
+                                    <option value="">Assign to...</option>
+                                    {members.map((m) => (
+                                      <option key={m._id} value={m._id}>
+                                        {m.name}
+                                      </option>
+                                    ))}
+                                  </select>
                                   <div className="d-flex gap-2">
                                     <button
                                       className="btn btn-sm btn-outline-info"
@@ -198,7 +226,7 @@ export const ProjectBoard = () => {
                               ) : (
                                 <>
                                   <h6
-                                    className="m-3"
+                                    className="m-2"
                                     onClick={() => navigate(`/task/${t._id}`)}
                                     style={{ cursor: 'pointer' }}
                                   >
@@ -207,14 +235,22 @@ export const ProjectBoard = () => {
                                       {t.createdAt
                                         ? new Date(
                                             t.createdAt
-                                          ).toLocaleDateString({
-                                            month: 'short',
-                                            day: 'numeric',
-                                          })
+                                          ).toLocaleDateString()
                                         : 'Just now'}
                                     </small>
+                                    {t.assignedTo && (
+                                      <small
+                                        className="small d-block px-2"
+                                        style={{
+                                          color: 'rgba(222, 251, 255, 0.43)',
+                                        }}
+                                      >
+                                        <i className="fas fa-user"></i>{' '}
+                                        {t.assignedTo?.name || 'Unassigned'}
+                                      </small>
+                                    )}
                                   </h6>
-                                  <p className="small">{t.description}</p>
+                                  <p className="small px-2">{t.description}</p>
                                   <select
                                     className="form-select form-select-sm mt-2"
                                     value={t.status}
@@ -236,7 +272,7 @@ export const ProjectBoard = () => {
                                         setEditingTask(t);
                                       }}
                                     >
-                                      Edit
+                                      <i className="fas fa-edit"></i>
                                     </button>
                                     <button
                                       className="btn btn-sm btn-outline-danger"
@@ -245,7 +281,7 @@ export const ProjectBoard = () => {
                                         deleteTask(t._id);
                                       }}
                                     >
-                                      Delete
+                                      <i className="fas fa-trash"></i>
                                     </button>
                                   </div>
                                 </>
@@ -285,11 +321,23 @@ export const ProjectBoard = () => {
                   onChange={(e) => setNewTitle(e.target.value)}
                 />
                 <textarea
-                  className="form-control"
+                  className="form-control mb-2"
                   placeholder="Description"
                   value={newDesc}
                   onChange={(e) => setNewDesc(e.target.value)}
                 />
+                <select
+                  className="form-select mt-2"
+                  value={newAssignedTo}
+                  onChange={(e) => setNewAssignedTo(e.target.value)}
+                >
+                  <option value="">Assign to...</option>
+                  {members.map((m) => (
+                    <option key={m._id} value={m._id}>
+                      {m.name}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="modal-footer">
                 <button

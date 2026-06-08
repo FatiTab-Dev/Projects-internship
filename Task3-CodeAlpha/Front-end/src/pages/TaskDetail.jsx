@@ -137,13 +137,13 @@ export const TaskDetail = () => {
                     className="btn btn-sm btn-outline-danger"
                     onClick={() => deleteComment(c._id)}
                   >
-                    Delete
+                    <i className="fas fa-trash"></i>
                   </button>
                   <button
                     className="btn btn-sm btn-outline-warning"
                     onClick={() => setEditingComment(c)}
                   >
-                    Edit
+                    <i className="fas fa-edit"></i>
                   </button>
                 </div>
               </>

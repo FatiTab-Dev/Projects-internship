@@ -58,6 +58,7 @@ export const Dashboard = () => {
   };
   const inviteMember = async () => {
     try {
+      console.log(invitingProject);
       const res = await fetch(`${API}/projects/${invitingProject}/invite`, {
         method: 'POST',
         headers: {
@@ -137,7 +138,8 @@ export const Dashboard = () => {
               className="btn btn-outline-info btn-sm position-relative"
               onClick={() => setShowNotifications(!showNotifications)}
             >
-              🔔
+              <i className="fas fa-bell"></i>
+
               {notifications.filter((n) => !n.read).length > 0 && (
                 <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                   {notifications.filter((n) => !n.read).length}
@@ -232,7 +234,7 @@ export const Dashboard = () => {
                   Cancel
                 </button>
                 <button className="btn btn-outline-info" onClick={creatProject}>
-                  Create
+                  <i className="fas fa-plus"></i>
                 </button>
               </div>
             </div>
@@ -267,7 +269,7 @@ export const Dashboard = () => {
                     setEditingProject(p);
                   }}
                 >
-                  Edit
+                  <i className="fas fa-edit"></i>
                 </button>
                 <button
                   className="btn btn-sm btn-outline-danger"
@@ -276,7 +278,7 @@ export const Dashboard = () => {
                     deleteProject(p._id);
                   }}
                 >
-                  Delete
+                  <i className="fas fa-trash"></i>
                 </button>
                 <button
                   className="btn btn-sm btn-outline-info"
@@ -285,7 +287,7 @@ export const Dashboard = () => {
                     setInvitingProject(p._id);
                   }}
                 >
-                  Invite
+                  <i className="fas fa-user-plus"></i>
                 </button>
               </div>
             </div>
@@ -322,7 +324,7 @@ export const Dashboard = () => {
                     Cancel
                   </button>
                   <button className="btn btn-info" onClick={inviteMember}>
-                    Invite
+                    <i className="fas fa-user-plus"></i>
                   </button>
                 </div>
               </div>

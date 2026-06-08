@@ -31,7 +31,9 @@ export const createTask = async (req, res) => {
 // get tasks
 export const getTask = async (req, res) => {
   try {
-    const populatedTask = await Task.find({ projectId: req.params.projectId });
+    const populatedTask = await Task.find({
+      projectId: req.params.projectId,
+    }).populate('assignedTo', 'name email');
     res.status(200).json(populatedTask);
   } catch (error) {
     res.status(500).json({ message: 'Error' });
