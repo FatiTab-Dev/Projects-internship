@@ -14,7 +14,7 @@ body {
   overflow-x: hidden;
   position: relative;
   background-color: #fdf9f9 !important;
-  color: #333 !important;
+  color: #06779c !important;
   font-family: 'Centra', sans-serif !important;
 }
 
@@ -159,7 +159,9 @@ h6 {
   box-shadow: none;
   color: #e6edf3;
 }
-
+.alert {
+  width: 400px !important;
+}
 /* Textarea */
 textarea {
   background-color: #022234 !important;

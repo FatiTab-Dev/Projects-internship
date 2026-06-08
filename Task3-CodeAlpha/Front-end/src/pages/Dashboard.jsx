@@ -269,35 +269,47 @@ export const Dashboard = () => {
                     : 'Just now'}
                 </small>
               </h5>
+              <p
+                className="small"
+                style={{
+                  color: 'rgba(222, 251, 255, 0.43)',
+                }}
+              >
+                Create by {p.owner?.name}
+              </p>
               <p className="m-2">{p.description}</p>
               <div className="d-flex gap-2 mt-2">
-                <button
-                  className="btn btn-sm btn-outline-warning"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setEditingProject(p);
-                  }}
-                >
-                  <i className="fas fa-edit"></i>
-                </button>
-                <button
-                  className="btn btn-sm btn-outline-danger"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    deleteProject(p._id);
-                  }}
-                >
-                  <i className="fas fa-trash"></i>
-                </button>
-                <button
-                  className="btn btn-sm btn-outline-info"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setInvitingProject(p._id);
-                  }}
-                >
-                  <i className="fas fa-user-plus"></i>
-                </button>
+                {user?.id === p.owner?._id && (
+                  <>
+                    <button
+                      className="btn btn-sm btn-outline-warning"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setEditingProject(p);
+                      }}
+                    >
+                      <i className="fas fa-edit"></i>
+                    </button>
+                    <button
+                      className="btn btn-sm btn-outline-danger"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        deleteProject(p._id);
+                      }}
+                    >
+                      <i className="fas fa-trash"></i>
+                    </button>
+                    <button
+                      className="btn btn-sm btn-outline-info"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setInvitingProject(p._id);
+                      }}
+                    >
+                      <i className="fas fa-user-plus"></i>
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           </div>

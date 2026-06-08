@@ -11,7 +11,15 @@ export const TaskDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const API = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+  const fetchComment = async () => {
+    const res = await fetch(`${API}/comments/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const data = await res.json();
+    setcomment(Array.isArray(data) ? data : []);
+  };
   useEffect(() => {
+    fetchComment();
     fetch(`${API}/comments/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -48,6 +56,7 @@ export const TaskDetail = () => {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });
+      await fetchComment();
       setcomment((prev) => prev.filter((c) => c._id !== commentId));
     } catch {
       setMessage({ text: 'Error deleting comment', type: 'danger' });
