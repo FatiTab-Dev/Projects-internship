@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -5,7 +6,7 @@ import { useAuth } from '../context/AuthContext';
 export const Dashboard = () => {
   const [project, setProject] = useState([]);
   const [message, setMessage] = useState({ text: '', type: '' });
-  const { token, logout, notifications, setNotifications } = useAuth();
+  const { token, logout, user, notifications, setNotifications } = useAuth();
   const [showModal, setShowModal] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [newTitle, setNewTitle] = useState('');
@@ -188,12 +189,17 @@ export const Dashboard = () => {
           >
             Create Project
           </button>
-          <button
-            className="btn btn-outline-info btn-sm ms-auto"
-            onClick={handleLogout}
-          >
-            Logout
-          </button>
+          <div className="d-flex align-items-center gap-3 ms-auto">
+            <span className="text-info">
+              <i className="fas fa-user-circle"></i> {user?.name || 'User'}
+            </span>
+            <button
+              className="btn btn-outline-info btn-sm ms-auto"
+              onClick={handleLogout}
+            >
+              Logout
+            </button>
+          </div>
         </div>
       </nav>
       {message.text && (
